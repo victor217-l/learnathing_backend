@@ -42,10 +42,7 @@ router.use(bodyparser.json())
 //     res.status(500).send(err);
 //   });
 
-//   blobStream.on('finish', () => {
-//     console.log('File uploaded successfully.');
-//     res.status(200).send('File uploaded successfully');
-//   });
+
 
 
 
