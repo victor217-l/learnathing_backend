@@ -48,7 +48,6 @@ router.use(bodyparser.json())
 //   });
 
 
-//   let result = await  db_query.insertpost
 
 //   blobStream.end(file.buffer);
 // });
