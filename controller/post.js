@@ -92,7 +92,7 @@ router.get('/all_post', authenticateToken, async (req,res) => {
     res.json({msg: "Invalid credential"})
   }else if(result.status == true){
     const postsWithImageURLs = result.data.map(post => {
-      const imageUrl = `/uploads/${post.imageFileName}`;
+      const imageUrl = `/uploads/${post.postname}`;
 
       return {...post, imageUrl}
     })
