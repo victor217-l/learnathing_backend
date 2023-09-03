@@ -95,13 +95,27 @@ router.get('/all_post', authenticateToken, async (req,res) => {
     res.statusCode = 500;
     res.json({msg: "Invalid credential"})
   }else if(result.status == true){
+    const postsWithImageURLs = result.data.map(post => {
+      const imageUrl = `/uploads/${post.imageFileName}`;
+
+      return {...post, imageUrl}
+    })
     res.statusCode = 200;
-    res.json({msg:"All post ", list:result.data})
+    res.json({msg:"All post ", list:result.data, list: postsWithImageURLs})
   }
 
 })
 
-//userpost
+router.get('/uploads/:imageName', (req, res) => {
+  const imageName = req.params.imageName;
+  const imagePath = path.join(__dirname, 'public/asset/images/upload_images', imageName);
+
+  // Send the image file as a response
+  res.sendFile(imagePath);
+});
+
+
+//userpost 
 router.post('/user_post', authenticateToken, async (req,res) => {
   var username = req.body.username;
 
@@ -110,12 +124,37 @@ router.post('/user_post', authenticateToken, async (req,res) => {
     res.statusCode = 500;
     res.json({msg:"Invalid credential"})
   }else if(result.status == true){
+    const postsWithImageURLs = result.data.map(post => {
+      const imageUrl = `/uploads/${post.imageFileName}`;
+
+      return {...post, imageUrl}
+    })
     res.statusCode = 200;
-    res.json({msg:"users post", list:result.data})
+    res.json({msg:"users post", list:result.data, list2: postsWithImageURLs})
   }
 })
 
 //
+
+// router.get('/all_post', authenticateToken, async (req, res) => {
+//   let result = await db_query.getallpost();
+
+//   if (result.status == false) {
+//     res.statusCode = 500;
+//     res.json({ msg: "Invalid credential" });
+//   } else if (result.status == true) {
+//     // Modify the response to include image URLs
+//     const postsWithImageURLs = result.data.map(post => {
+//       // Assuming post.imageFileName contains the filename of the uploaded image
+//       const imageUrl = `/uploads/${post.imageFileName}`;
+//       return { ...post, imageUrl };
+//     });
+
+//     res.statusCode = 200;
+//     res.json({ msg: "All post", list: postsWithImageURLs });
+//   }
+// });
+
 
 function authenticateToken(req,res,next)  {
   const authHeader = req.headers['authorization'];

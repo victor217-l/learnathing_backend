@@ -186,6 +186,41 @@ var userpostname = (usernamepost,username) => {
     })
 }
 
+var seeuserpost = (user_id) => {
+    return new Promise((resolve,reject) => {
+        pool.getConnection(async(err,connection) => {
+            if(err) throw err;
+            connection.query("select * from post where user_id = ?", [user_id], async (err,rows) => {
+                connection.release();
+                if(err){
+                    return resolve({status: false})
+                }else{
+                    return resolve({status: true, data:rows})
+                }
+            })
+        })
+    })
+}
+
+
+
+var sendcomment = (comment, post_id,person_id) => {
+    return new Promise((resolve,reject) => {
+        pool.getConnection(async(err,connection) => {
+            if(err) throw err;
+            connection.query("insert into comment(`comment`,`person_uid`,`post_id`) values(?,?,?)", async (err,rows) => {
+                connection.release();
+                if(err) {
+                    return resolve({status: false})
+                }else{
+                    return resolve({status: true, data:rows})
+                }
+            })
+        })
+    })
+}
+
+var seeallcomment = () => {}
 
 module.exports = {
     signup,
@@ -199,5 +234,8 @@ module.exports = {
     getallpost,
     getuserpost,
     userpostname,
+    sendcomment,
+    seeallcomment,
+    seeuserpost,
 
 }
