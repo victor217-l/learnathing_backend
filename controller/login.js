@@ -48,8 +48,6 @@ check('password').notEmpty().withMessage('password field is empty')], async (req
 
             }
         }
-
-        
     }else{
         res.statusCode = 500;
         res.json({msg:"Invalid credential"})

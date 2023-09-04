@@ -63,22 +63,99 @@ var storage =  multer.diskStorage({
 var upload = multer({storage: storage})
 
 
+const fs = require('fs'); // You'll need the 'fs' module to read the image file
+
+const imagePath = 'public/asset/images/upload_images'; // Replace with the path to your image file
+const options = { folder: 'learnathing' }; // Optional: Set a folder in your Cloudinary account
+
+cloudinary.uploader.upload(imagePath, options, (error, result) => {
+  if (error) {
+    console.error(error);
+    // Handle the error, e.g., send an error response to the client
+  } else {
+    console.log(result);
+    // The result object contains the uploaded image details, including the public URL
+    // You can send this URL back to the client or use it as needed
+  }
+});
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+// POST endpoint for image upload
+app.post('/upload', upload.single('image'), (req, res) => {
+  const imageBuffer = req.file.buffer;
+
+  // Upload the image to Cloudinary
+  cloudinary.uploader.upload_stream({ folder: 'your_folder_name' }, (error, result) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Image upload failed' });
+    } else {
+      // Return the Cloudinary URL of the uploaded image
+      return res.status(200).json({ imageUrl: result.secure_url });
+    }
+  }).end(imageBuffer);
+});
+
+
+
 router.post('/addpost',  authenticateToken, upload.single("image"), async (req,res) => {
 
   var title = req.body.title;
   //var filename = req.file.filename;
   var username = req.body.username;
   var category = req.body.category;
-  
-  let result = await db_query.insertpost(username,req.file.filename,title,category);
-  
-  if(result.status == false){
-    res.statusCode = 500;
-    res.json({msg:"Invalid credential"})
-  }else if(result.status == true){
-    res.statusCode = 200;
-    res.json({msg:"Add post", list:result.data })
+
+
+  if (!req.file) {
+    res.statusCode = 400;
+    res.json({ msg: "Image file is required" });
+    return;
   }
+
+  // Prepare the image for Cloudinary upload
+  const imageBuffer = req.file.buffer;
+
+  // Upload the image to Cloudinary
+  cloudinary.uploader.upload_stream({ folder: 'learnathing' }, async (error, result) => {
+    if (error) {
+      console.error(error);
+      res.statusCode = 500;
+      res.json({ error: 'Image upload failed' });
+    } else {
+      // Once the image is successfully uploaded to Cloudinary, insert the post into your database
+      try {
+        const insertResult = await db_query.insertpost(username, result.secure_url, title, category);
+
+        if (insertResult.status === false) {
+          res.statusCode = 500;
+          res.json({ msg: "Invalid credential" });
+        } else if (insertResult.status === true) {
+          res.statusCode = 200;
+          res.json({ msg: "Add post", list: insertResult.data });
+        }
+      } catch (dbError) {
+        console.error(dbError);
+        res.statusCode = 500;
+        res.json({ error: 'Database insertion failed' });
+      }
+    }
+  }).end(imageBuffer);
+  
+  // let result = await db_query.insertpost(username,req.file.filename,title,category);
+  
+  // if(result.status == false){
+  //   res.statusCode = 500;
+  //   res.json({msg:"Invalid credential"})
+  // }else if(result.status == true){
+
+    
+    
+
+  //   res.statusCode = 200;
+  //   res.json({msg:"Add post", list:result.data })
+  // }
 
 })
 
@@ -87,15 +164,24 @@ router.get('/all_post', authenticateToken, async (req,res) => {
  
   let result = await db_query.getallpost()
 
+
+        
+cloudinary.config({ 
+  cloud_name: 'detjbvvp6', 
+  api_key: '459747664558291', 
+  api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
+});
+
   if(result.status == false){
     res.statusCode = 500;
     res.json({msg: "Invalid credential"})
   }else if(result.status == true){
-    const postsWithImageURLs = result.data.map(post => {
-      const imageUrl = `/uploads/${post.postname}`;
+    // const postsWithImageURLs = result.data.map(post => {
+    //   const imageUrl = `/uploads/${post.postname}`;
 
-      return {...post, imageUrl}
-    })
+    //   return {...post, imageUrl}
+    // })
+
     res.statusCode = 200;
     res.json({msg:"All post ", list:result.data, list: postsWithImageURLs})
   }
