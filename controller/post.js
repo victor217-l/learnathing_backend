@@ -148,8 +148,7 @@ router.post('/addpost',  authenticateToken, upload.single("image"), async (req,r
         res.json({ error: 'Database insertion failed' });
       }
     }
-  })
-  //.end(imageBuffer);
+  }).end(imageBuffer);
   
   // let result = await db_query.insertpost(username,req.file.filename,title,category);
   
