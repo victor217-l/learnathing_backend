@@ -97,6 +97,12 @@ const upload = multer({ storage: storage });
 // });
 
 
+cloudinary.config({ 
+  cloud_name: 'detjbvvp6', 
+  api_key: '459747664558291', 
+  api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
+})
+
 
 router.post('/addpost',  authenticateToken, upload.single("image"), async (req,res) => {
 
@@ -164,11 +170,7 @@ router.get('/all_post', authenticateToken, async (req,res) => {
 
 
         
-cloudinary.config({ 
-  cloud_name: 'detjbvvp6', 
-  api_key: '459747664558291', 
-  api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
-});
+;
 
   if(result.status == false){
     res.statusCode = 500;
