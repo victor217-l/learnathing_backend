@@ -50,20 +50,18 @@ router.use(bodyparser.json())
 // });
 
 
-var storage =  multer.diskStorage({
-  destination: function(req,file,cb){
-    cb(null, "public/asset/images/upload_images")
-  },
-  filename: function(req,file,cb){
-    console.log(file)
-    cb(null,file.originalname)
-  }
-})
+// var storage =  multer.diskStorage({
+//   destination: function(req,file,cb){
+//     cb(null, "public/asset/images/upload_images")
+//   },
+//   filename: function(req,file,cb){
+//     console.log(file)
+//     cb(null,file.originalname)
+//   }
+// })
 
-var upload = multer({storage: storage})
+// var upload = multer({storage: storage})
 
-
-const fs = require('fs'); // You'll need the 'fs' module to read the image file
 
 const imagePath = 'public/asset/images/upload_images'; // Replace with the path to your image file
 const options = { folder: 'learnathing' }; // Optional: Set a folder in your Cloudinary account
