@@ -106,7 +106,7 @@ const upload = multer({ storage: storage });
 
 
 
-router.post('/addpost',  authenticateToken, upload.single("image"), async (req,res) => {
+router.post('/addpost',  authenticateToken, upload.single("file"), async (req,res) => {
 
   var title = req.body.title;
   //var filename = req.file.filename;
@@ -122,7 +122,7 @@ router.post('/addpost',  authenticateToken, upload.single("image"), async (req,r
   }
 
   // Prepare the image for Cloudinary upload
-  const imageBuffer = req.file.buffer;
+  //const imageBuffer = req.file.buffer;
 
   // Upload the image to Cloudinary
   cloudinary.uploader.upload_stream({ folder: 'learnathing' }, async (error, result) => {
@@ -148,7 +148,8 @@ router.post('/addpost',  authenticateToken, upload.single("image"), async (req,r
         res.json({ error: 'Database insertion failed' });
       }
     }
-  }).end(imageBuffer);
+  })
+  //.end(imageBuffer);
   
   // let result = await db_query.insertpost(username,req.file.filename,title,category);
   
