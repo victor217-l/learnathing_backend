@@ -112,6 +112,7 @@ router.post('/addpost',  authenticateToken, upload.single("image"), async (req,r
   //var filename = req.file.filename;
   var username = req.body.username;
   var category = req.body.category;
+  var image = req.file.image;
 
 
   if (!req.file.image) {
