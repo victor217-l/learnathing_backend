@@ -70,19 +70,19 @@ cloudinary.config({
 // var upload = multer({storage: storage})
 
 
-const imagePath = 'public/asset/images/upload_images'; // Replace with the path to your image file
-const options = { folder: 'learnathing' }; // Optional: Set a folder in your Cloudinary account
+// const imagePath = 'public/asset/images/upload_images'; // Replace with the path to your image file
+// const options = { folder: 'learnathing' }; // Optional: Set a folder in your Cloudinary account
 
-cloudinary.uploader.upload(imagePath, options, (error, result) => {
-  if (error) {
-    console.error(error);
-    // Handle the error, e.g., send an error response to the client
-  } else {
-    console.log(result);
-    // The result object contains the uploaded image details, including the public URL
-    // You can send this URL back to the client or use it as needed
-  }
-});
+// cloudinary.uploader.upload(imagePath, options, (error, result) => {
+//   if (error) {
+//     console.error(error);
+//     // Handle the error, e.g., send an error response to the client
+//   } else {
+//     console.log(result);
+//     // The result object contains the uploaded image details, including the public URL
+//     // You can send this URL back to the client or use it as needed
+//   }
+// });
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
