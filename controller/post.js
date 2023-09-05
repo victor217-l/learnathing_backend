@@ -112,10 +112,10 @@ router.post('/addpost',  authenticateToken, upload.single("image"), async (req,r
   //var filename = req.file.filename;
   var username = req.body.username;
   var category = req.body.category;
-  var image = req.file.image;
+ // var image = req.file.image;
 
 
-  if (!req.file.image) {
+  if (!req.file) {
     res.statusCode = 400;
     res.json({ msg: "Image file is required" });
    // return;
