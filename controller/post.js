@@ -5,7 +5,7 @@ var multer = require('multer')
 var db_query = require('../model/db_model')
 var jwt = require('jsonwebtoken')
 const fs = require('fs');
-
+var cloudinary = require('cloudinary')
 
 
 router.use(bodyparser.urlencoded({extended: true}))
