@@ -81,20 +81,20 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // POST endpoint for image upload
-app.post('/upload', upload.single('image'), (req, res) => {
-  const imageBuffer = req.file.buffer;
+// app.post('/upload', upload.single('image'), (req, res) => {
+//   const imageBuffer = req.file.buffer;
 
-  // Upload the image to Cloudinary
-  cloudinary.uploader.upload_stream({ folder: 'your_folder_name' }, (error, result) => {
-    if (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Image upload failed' });
-    } else {
-      // Return the Cloudinary URL of the uploaded image
-      return res.status(200).json({ imageUrl: result.secure_url });
-    }
-  }).end(imageBuffer);
-});
+//   // Upload the image to Cloudinary
+//   cloudinary.uploader.upload_stream({ folder: 'your_folder_name' }, (error, result) => {
+//     if (error) {
+//       console.error(error);
+//       return res.status(500).json({ error: 'Image upload failed' });
+//     } else {
+//       // Return the Cloudinary URL of the uploaded image
+//       return res.status(200).json({ imageUrl: result.secure_url });
+//     }
+//   }).end(imageBuffer);
+// });
 
 
 
