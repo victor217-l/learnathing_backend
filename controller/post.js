@@ -114,10 +114,10 @@ router.post('/addpost',  authenticateToken, upload.single("image"), async (req,r
   var category = req.body.category;
 
 
-  if (!req.file) {
+  if (!req.file.image) {
     res.statusCode = 400;
     res.json({ msg: "Image file is required" });
-    return;
+   // return;
   }
 
   // Prepare the image for Cloudinary upload
@@ -147,7 +147,8 @@ router.post('/addpost',  authenticateToken, upload.single("image"), async (req,r
         res.json({ error: 'Database insertion failed' });
       }
     }
-  }).end(imageBuffer);
+  })
+  //.end(imageBuffer);
   
   // let result = await db_query.insertpost(username,req.file.filename,title,category);
   
