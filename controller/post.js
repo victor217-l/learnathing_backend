@@ -115,17 +115,17 @@ router.post('/addpost',  authenticateToken, upload.single("images"), async (req,
  // var image = req.file.image;
 
 
-  if (!req.file) {
-    res.statusCode = 400;
-    res.json({ msg: "Image file is required" });
-   // return;
-  }
+  // if (!req.file) {
+  //   res.statusCode = 400;
+  //   res.json({ msg: "Image file is required" });
+  //  // return;
+  // }
 
   // Prepare the image for Cloudinary upload
   //const imageBuffer = req.file.buffer;
 
   // Upload the image to Cloudinary
-  cloudinary.uploader.upload_stream({ folder: 'learnathing' }, async (error, result) => {
+  cloudinary.uploader.upload({ folder: 'learnathing' }, async (error, result) => {
     if (error) {
       console.error(error);
       res.statusCode = 500;
