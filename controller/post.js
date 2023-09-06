@@ -125,7 +125,7 @@ router.post('/addpost',  authenticateToken, upload.single("images"), async (req,
   //const imageBuffer = req.file.buffer;
 
   // Upload the image to Cloudinary
-  cloudinary.uploader.upload({ folder: 'learnathing' }, async (error, result) => {
+  cloudinary.uploader.upload(req.file.path,{folder: 'learnathing' }, async (error, result) => {
     if (error) {
       console.error(error);
       res.statusCode = 500;
