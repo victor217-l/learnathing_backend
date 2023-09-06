@@ -127,30 +127,62 @@ const upload = multer({ storage: storage });
   //const imageBuffer = req.file.buffer;
 
   // Upload the image to Cloudinary
-  cloudinaryy.uploader.upload(req.file.path,{folder: 'learnathing' }, async (error, result) => {
-    if (error) {
-      console.error(error);
-      res.statusCode = 500;
-      res.json({ error: 'Image upload failed' });
-    } else {
-      // Once the image is successfully uploaded to Cloudinary, insert the post into your database
-      try {
-        const insertResult = await db_query.insertpost(username, result.secure_url, title, category);
 
-        if (insertResult.status === false) {
-          res.statusCode = 500;
-          res.json({ msg: "Invalid credential" });
-        } else if (insertResult.status === true) {
-          res.statusCode = 200;
-          res.json({ msg: "Add post", list: insertResult.data });
+  try {
+    // Upload the image to Cloudinary and await the result
+    const result = await new Promise((resolve, reject) => {
+      cloudinaryy.uploader.upload(req.file.path, { folder: 'learnathing' }, (error, result) => {
+        if (error) {
+          console.error(error);
+          reject(error); // Reject the promise on error
+        } else {
+          resolve(result); // Resolve the promise with the Cloudinary result on success
         }
-      } catch (dbError) {
-        console.error(dbError);
-        res.statusCode = 500;
-        res.json({ error: 'Database insertion failed' });
-      }
+      });
+    });
+  
+    // Once the image is successfully uploaded to Cloudinary, insert the post into your database
+    const insertResult = await db_query.insertpost(username, result.secure_url, title, category);
+  
+    if (insertResult.status === false) {
+      res.statusCode = 500;
+      res.json({ msg: "Invalid credential" });
+    } else if (insertResult.status === true) {
+      res.statusCode = 200;
+      res.json({ msg: "Add post", list: insertResult.data });
     }
-  })
+  } catch (error) {
+    console.error(error);
+    res.statusCode = 500;
+    res.json({ error: 'Image upload or database insertion failed', cloudinaryError: error });
+  }
+  
+  // const result = await  cloudinaryy.uploader.upload(req.file.path,{folder: 'learnathing' }, async (error, result) => {
+  //   if (error) {
+  //     console.error(error);
+  //     res.statusCode = 500;
+  //     res.json({ error: 'Image upload failed' });
+  //   } else {
+  //     // Once the image is successfully uploaded to Cloudinary, insert the post into your database
+  //     try {
+  //       const insertResult = await db_query.insertpost(username, result.secure_url, title, category);
+
+  //       if (insertResult.status === false) {
+  //         res.statusCode = 500;
+  //         res.json({ msg: "Invalid credential" });
+  //       } else if (insertResult.status === true) {
+  //         res.statusCode = 200;
+  //         res.json({ msg: "Add post", list: insertResult.data });
+  //       }
+  //     } catch (dbError) {
+  //       console.error(dbError);
+  //       res.statusCode = 500;
+  //       res.json({ error: 'Database insertion failed' });
+  //     }
+  //   }
+  // })
+
+  
   //.end(imageBuffer);
   
   // let result = await db_query.insertpost(username,req.file.filename,title,category);
