@@ -53,19 +53,19 @@ router.use(bodyparser.json())
 
 
 
-// //   blobStream.end(file.buffer);
-// // });
+//   blobStream.end(file.buffer);
+// });
 
 
-// // var storage =  multer.diskStorage({
-// //   destination: function(req,file,cb){
-// //     cb(null, "public/asset/images/upload_images")
-// //   },
-// //   filename: function(req,file,cb){
-// //     console.log(file)
-// //     cb(null,file.originalname)
-// //   }
-// // })
+// var storage =  multer.diskStorage({
+//   destination: function(req,file,cb){
+//     cb(null, "public/asset/images/upload_images")
+//   },
+//   filename: function(req,file,cb){
+//     console.log(file)
+//     cb(null,file.originalname)
+//   }
+// })
 
 //  var upload = multer({storage: storage})
 
@@ -127,7 +127,7 @@ const upload = multer({ storage: storage });
   //const imageBuffer = req.file.buffer;
 
   // Upload the image to Cloudinary
-  cloudinaryy.uploader.upload(req.file.path,{folder: 'learnathing' }, async (error, result) => {
+  cloudinary.uploader.upload_stream(req.file.path,{folder: 'learnathing' }, async (error, result) => {
     if (error) {
       console.error(error);
       res.statusCode = 500;
