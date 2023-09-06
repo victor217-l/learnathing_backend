@@ -122,8 +122,13 @@ router.post("/upload", upload.single("image"), async (req, res) => {
   // Get the file uploaded by the user
   const file = req.file;
 
+  //const path = Buffer.from("my-file.jpg").toString();
+
+  const path = file.buffer.toString();
+
+//cloudinary.uploader.upload(path);
   // Upload the file to Cloudinary
-  const result = await cloudinary.uploader.upload(file.buffer);
+  const result = await cloudinary.uploader.upload(path);
 
   // Return the Cloudinary response to the user
   res.json(result);
