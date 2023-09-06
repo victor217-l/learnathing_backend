@@ -127,7 +127,7 @@ const upload = multer({ storage: storage });
   //const imageBuffer = req.file.buffer;
 
   // Upload the image to Cloudinary
-  cloudinaryy.uploader.upload_stream(req.file.path,{folder: 'learnathing' }, async (error, result) => {
+  cloudinaryy.uploader.upload(req.file.path,{folder: 'learnathing' }, async (error, result) => {
     if (error) {
       console.error(error);
       res.statusCode = 500;
