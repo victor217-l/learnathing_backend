@@ -12,7 +12,7 @@ router.use(bodyparser.urlencoded({extended: true}))
 router.use(bodyparser.json())
 
 
-cloudinary.config({ 
+  var cloudinaryy = cloudinary.config({ 
   cloud_name: 'detjbvvp6', 
   api_key: '459747664558291', 
   api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
@@ -22,91 +22,91 @@ cloudinary.config({
 
 
 
-// Create a new instance of the Google Cloud Storage client
-// const storage = new Storage({
-//   keyFilename: 'path/to/your/credentials.json', // Replace with your credentials file path
-// });
+// // Create a new instance of the Google Cloud Storage client
+// // const storage = new Storage({
+// //   keyFilename: 'path/to/your/credentials.json', // Replace with your credentials file path
+// // });
 
-// const bucket = storage.bucket('your-bucket-name'); // Replace with your bucket name
+// // const bucket = storage.bucket('your-bucket-name'); // Replace with your bucket name
 
-// const multerStorage = multer.memoryStorage();
+// // const multerStorage = multer.memoryStorage();
 
-// const upload = multer({ storage: multerStorage });
+// // const upload = multer({ storage: multerStorage });
 
-// // Upload route using multer
-// app.post('/upload', upload.single('file'), async (req, res) => {
-//   const file = req.file;
+// // // Upload route using multer
+// // app.post('/upload', upload.single('file'), async (req, res) => {
+// //   const file = req.file;
 
-//   if (!file) {
-//     return res.status(400).send('No file uploaded.');
-//   }
+// //   if (!file) {
+// //     return res.status(400).send('No file uploaded.');
+// //   }
 
-//   const blob = bucket.file(file.originalname);
-//   const blobStream = blob.createWriteStream();
+// //   const blob = bucket.file(file.originalname);
+// //   const blobStream = blob.createWriteStream();
 
-//   blobStream.on('error', (err) => {
-//     console.error('Error uploading:', err);
-//     res.status(500).send(err);
-//   });
-
-
+// //   blobStream.on('error', (err) => {
+// //     console.error('Error uploading:', err);
+// //     res.status(500).send(err);
+// //   });
 
 
 
-//   blobStream.end(file.buffer);
-// });
 
 
-// var storage =  multer.diskStorage({
-//   destination: function(req,file,cb){
-//     cb(null, "public/asset/images/upload_images")
-//   },
-//   filename: function(req,file,cb){
-//     console.log(file)
-//     cb(null,file.originalname)
-//   }
-// })
-
-// var upload = multer({storage: storage})
+// //   blobStream.end(file.buffer);
+// // });
 
 
-// const imagePath = 'public/asset/images/upload_images'; // Replace with the path to your image file
-// const options = { folder: 'learnathing' }; // Optional: Set a folder in your Cloudinary account
+// // var storage =  multer.diskStorage({
+// //   destination: function(req,file,cb){
+// //     cb(null, "public/asset/images/upload_images")
+// //   },
+// //   filename: function(req,file,cb){
+// //     console.log(file)
+// //     cb(null,file.originalname)
+// //   }
+// // })
 
-// cloudinary.uploader.upload(imagePath, options, (error, result) => {
-//   if (error) {
-//     console.error(error);
-//     // Handle the error, e.g., send an error response to the client
-//   } else {
-//     console.log(result);
-//     // The result object contains the uploaded image details, including the public URL
-//     // You can send this URL back to the client or use it as needed
-//   }
-// });
+// // var upload = multer({storage: storage})
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+
+// // const imagePath = 'public/asset/images/upload_images'; // Replace with the path to your image file
+// // const options = { folder: 'learnathing' }; // Optional: Set a folder in your Cloudinary account
+
+// // cloudinary.uploader.upload(imagePath, options, (error, result) => {
+// //   if (error) {
+// //     console.error(error);
+// //     // Handle the error, e.g., send an error response to the client
+// //   } else {
+// //     console.log(result);
+// //     // The result object contains the uploaded image details, including the public URL
+// //     // You can send this URL back to the client or use it as needed
+// //   }
+// // });
+
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
 
 // POST endpoint for image upload
-// app.post('/upload', upload.single('image'), (req, res) => {
-//   const imageBuffer = req.file.buffer;
+app.post('/upload', upload.single('image'), (req, res) => {
+  const imageBuffer = req.file.buffer;
 
-//   // Upload the image to Cloudinary
-//   cloudinary.uploader.upload_stream({ folder: 'your_folder_name' }, (error, result) => {
-//     if (error) {
-//       console.error(error);
-//       return res.status(500).json({ error: 'Image upload failed' });
-//     } else {
-//       // Return the Cloudinary URL of the uploaded image
-//       return res.status(200).json({ imageUrl: result.secure_url });
-//     }
-//   }).end(imageBuffer);
-// });
-
-
+  // Upload the image to Cloudinary
+  cloudinary.uploader.upload({ folder: 'your_folder_name' }, (error, result) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Image upload failed' });
+    } else {
+      // Return the Cloudinary URL of the uploaded image
+      return res.status(200).json({ imageUrl: result.secure_url });
+    }
+  }).end(imageBuffer);
+});
 
 
-router.post('/addpost',  authenticateToken, upload.single("images"), async (req,res) => {
+
+
+ router.post('/addpost',  authenticateToken, upload.single("images"), async (req,res) => {
 
   var title = req.body.title;
   //var filename = req.file.filename;
@@ -125,7 +125,7 @@ router.post('/addpost',  authenticateToken, upload.single("images"), async (req,
   //const imageBuffer = req.file.buffer;
 
   // Upload the image to Cloudinary
-  cloudinary.uploader.upload(req.file.path,{folder: 'learnathing' }, async (error, result) => {
+  cloudinaryy.uploader.upload(req.file.path,{folder: 'learnathing' }, async (error, result) => {
     if (error) {
       console.error(error);
       res.statusCode = 500;
@@ -157,10 +157,6 @@ router.post('/addpost',  authenticateToken, upload.single("images"), async (req,
   //   res.statusCode = 500;
   //   res.json({msg:"Invalid credential"})
   // }else if(result.status == true){
-
-    
-    
-
   //   res.statusCode = 200;
   //   res.json({msg:"Add post", list:result.data })
   // }
@@ -257,6 +253,10 @@ function authenticateToken(req,res,next)  {
   })
 }
 
+
+var uploadvideo = (req,res) => {
+  cloudinary.Uploader.upload
+}
 
 
 
