@@ -121,13 +121,13 @@ const upload = multer({ storage: storage });
   //   res.statusCode = 400;
   //   res.json({ msg: "Image file is required" });
   //  // return;
-  // }
+  // } 
 
   // Prepare the image for Cloudinary upload
   //const imageBuffer = req.file.buffer;
 
   // Upload the image to Cloudinary
-  cloudinary.uploader.upload_stream(req.file.path,{folder: 'learnathing' }, async (error, result) => {
+  cloudinaryy.uploader.upload_stream(req.file.path,{folder: 'learnathing' }, async (error, result) => {
     if (error) {
       console.error(error);
       res.statusCode = 500;
