@@ -105,6 +105,11 @@ router.use(bodyparser.json())
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+var cloudinaryy = cloudinary.config({ 
+  cloud_name: 'detjbvvp6', 
+  api_key: '459747664558291', 
+  api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
+})
 
 
 
@@ -131,7 +136,7 @@ const upload = multer({ storage: storage });
   try {
     // Upload the image to Cloudinary and await the result
     const result = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload(req.file.path, { folder: 'learnathing' }, (error, result) => {
+      cloudinaryy.uploader.upload(req.file.path, { folder: 'learnathing' }, (error, result) => {
         if (error) {
           console.error(error);
          return   reject(error); // Reject the promise on error
