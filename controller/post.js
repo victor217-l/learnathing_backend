@@ -135,8 +135,10 @@ const upload = multer({ storage: storage });
         if (error) {
           console.error(error);
           reject(error); // Reject the promise on error
+          res.json({msg:"Error"})
         } else {
           resolve(result); // Resolve the promise with the Cloudinary result on success
+          res.json({msg:"Succes"})
         }
       });
     });
