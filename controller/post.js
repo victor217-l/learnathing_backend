@@ -131,7 +131,7 @@ const upload = multer({ storage: storage });
   try {
     // Upload the image to Cloudinary and await the result
     const result = await new Promise((resolve, reject) => {
-      cloudinaryy.uploader.upload(req.file.path, { folder: 'learnathing' }, (error, result) => {
+      cloudinary.uploader.upload(req.file.path, { folder: 'learnathing' }, (error, result) => {
         if (error) {
           console.error(error);
           reject(error); // Reject the promise on error
