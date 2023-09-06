@@ -102,8 +102,6 @@ router.use(bodyparser.json())
 // });
 
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
  cloudinary.config({ 
   cloud_name: 'detjbvvp6', 
@@ -111,12 +109,16 @@ const upload = multer({ storage: storage });
   api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
 })
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+
 // const upload = multer({
 //   storage: multer.memoryStorage(),
 // });
 
 // Create a route that handles image uploads
-app.post("/upload", upload.single("image"), async (req, res) => {
+router.post("/upload", upload.single("image"), async (req, res) => {
   // Get the file uploaded by the user
   const file = req.file;
 
