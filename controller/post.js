@@ -105,7 +105,7 @@ router.use(bodyparser.json())
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-var cloudinaryy = cloudinary.config({ 
+ cloudinary.config({ 
   cloud_name: 'detjbvvp6', 
   api_key: '459747664558291', 
   api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
@@ -136,7 +136,7 @@ var cloudinaryy = cloudinary.config({
   try {
     // Upload the image to Cloudinary and await the result
     const result = await new Promise((resolve, reject) => {
-      cloudinaryy.uploader.upload(req.file.path, { folder: 'learnathing' }, (error, result) => {
+      cloudinary.uploader.upload(req.file.path, { folder: 'learnathing' }, (error, result) => {
         if (error) {
           console.error(error);
          return   reject(error); // Reject the promise on error
@@ -151,10 +151,10 @@ var cloudinaryy = cloudinary.config({
     // Once the image is successfully uploaded to Cloudinary, insert the post into your database
     const insertResult = await db_query.insertpost(username, result.secure_url, title, category);
   
-    if (insertResult.status === false) {
+    if (insertResult.status == false) {
       res.statusCode = 500;
       res.json({ msg: "Invalid credential" });
-    } else if (insertResult.status === true) {
+    } else if (insertResult.status == true) {
       res.statusCode = 200;
       res.json({ msg: "Add post", list: insertResult.data });
     }
