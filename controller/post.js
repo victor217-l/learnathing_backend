@@ -134,11 +134,11 @@ const upload = multer({ storage: storage });
       cloudinary.uploader.upload(req.file.path, { folder: 'learnathing' }, (error, result) => {
         if (error) {
           console.error(error);
-          reject(error); // Reject the promise on error
-          res.json({msg:"Error"})
+         return   reject(error); // Reject the promise on error
+        //  res.json({msg:"Error"})
         } else {
-          resolve(result); // Resolve the promise with the Cloudinary result on success
-          res.json({msg:"Succes"})
+        return  resolve(result); // Resolve the promise with the Cloudinary result on success
+        //  res.json({msg:"Succes"})
         }
       });
     });
