@@ -128,7 +128,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
 
 //cloudinary.uploader.upload(path);
   // Upload the file to Cloudinary
-  const result = await cloudinary.uploader.upload(path);
+  const result = await cloudinary.uploader.upload(path, {folder: "learnathing"});
 
   // Return the Cloudinary response to the user
   res.json(result);
