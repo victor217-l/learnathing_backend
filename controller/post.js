@@ -44,10 +44,10 @@ router.use(bodyparser.json())
 // //   const blob = bucket.file(file.originalname);
 // //   const blobStream = blob.createWriteStream();
 
-// //   blobStream.on('error', (err) => {
-// //     console.error('Error uploading:', err);
-// //     res.status(500).send(err);
-// //   });
+//   blobStream.on('error', (err) => {
+//     console.error('Error uploading:', err);
+//     res.status(500).send(err);
+//   });
 
 
 
@@ -67,41 +67,43 @@ router.use(bodyparser.json())
 // //   }
 // // })
 
-// // var upload = multer({storage: storage})
+//  var upload = multer({storage: storage})
 
 
-// // const imagePath = 'public/asset/images/upload_images'; // Replace with the path to your image file
-// // const options = { folder: 'learnathing' }; // Optional: Set a folder in your Cloudinary account
+// const imagePath = 'public/asset/images/upload_images'; // Replace with the path to your image file
+// const options = { folder: 'learnathing' }; // Optional: Set a folder in your Cloudinary account
 
-// // cloudinary.uploader.upload(imagePath, options, (error, result) => {
-// //   if (error) {
-// //     console.error(error);
-// //     // Handle the error, e.g., send an error response to the client
-// //   } else {
-// //     console.log(result);
-// //     // The result object contains the uploaded image details, including the public URL
-// //     // You can send this URL back to the client or use it as needed
-// //   }
-// // });
+// cloudinary.uploader.upload(imagePath, options, (error, result) => {
+//   if (error) {
+//     console.error(error);
+//     // Handle the error, e.g., send an error response to the client
+//   } else {
+//     console.log(result);
+//     // The result object contains the uploaded image details, including the public URL
+//     // You can send this URL back to the client or use it as needed
+//   }
+// });
 
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage: storage });
 
 // POST endpoint for image upload
-app.post('/upload', upload.single('image'), (req, res) => {
-  const imageBuffer = req.file.buffer;
+// app.post('/upload', upload.single('image'), (req, res) => {
+//   const imageBuffer = req.file.buffer;
 
-  // Upload the image to Cloudinary
-  cloudinary.uploader.upload({ folder: 'your_folder_name' }, (error, result) => {
-    if (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Image upload failed' });
-    } else {
-      // Return the Cloudinary URL of the uploaded image
-      return res.status(200).json({ imageUrl: result.secure_url });
-    }
-  }).end(imageBuffer);
-});
+//   // Upload the image to Cloudinary
+//   cloudinary.uploader.upload({ folder: 'your_folder_name' }, (error, result) => {
+//     if (error) {
+//       console.error(error);
+//       return res.status(500).json({ error: 'Image upload failed' });
+//     } else {
+//       // Return the Cloudinary URL of the uploaded image
+//       return res.status(200).json({ imageUrl: result.secure_url });
+//     }
+//   }).end(imageBuffer);
+// });
+
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 
 
