@@ -111,6 +111,23 @@ const upload = multer({ storage: storage });
   api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
 })
 
+// const upload = multer({
+//   storage: multer.memoryStorage(),
+// });
+
+// Create a route that handles image uploads
+app.post("/upload", upload.single("image"), async (req, res) => {
+  // Get the file uploaded by the user
+  const file = req.file;
+
+  // Upload the file to Cloudinary
+  const result = await cloudinary.uploader.upload(file.buffer);
+
+  // Return the Cloudinary response to the user
+  res.json(result);
+});
+
+
 
 
  router.post('/addpost',  authenticateToken, upload.single("images"), async (req,res) => {
@@ -122,11 +139,11 @@ const upload = multer({ storage: storage });
  // var image = req.file.image;
 
 
-  // if (!req.file) {
-  //   res.statusCode = 400;
-  //   res.json({ msg: "Image file is required" });
-  //  // return;
-  // } 
+  if (!req.file) {
+    res.statusCode = 400;
+    res.json({ msg: "Image file is required" });
+   // return;
+  } 
 
   // Prepare the image for Cloudinary upload
   //const imageBuffer = req.file.buffer;
@@ -164,44 +181,7 @@ const upload = multer({ storage: storage });
     res.json({ error: 'Image upload or database insertion failed', cloudinaryError: error });
   }
   
-  // const result = await  cloudinaryy.uploader.upload(req.file.path,{folder: 'learnathing' }, async (error, result) => {
-  //   if (error) {
-  //     console.error(error);
-  //     res.statusCode = 500;
-  //     res.json({ error: 'Image upload failed' });
-  //   } else {
-  //     // Once the image is successfully uploaded to Cloudinary, insert the post into your database
-  //     try {
-  //       const insertResult = await db_query.insertpost(username, result.secure_url, title, category);
-
-  //       if (insertResult.status === false) {
-  //         res.statusCode = 500;
-  //         res.json({ msg: "Invalid credential" });
-  //       } else if (insertResult.status === true) {
-  //         res.statusCode = 200;
-  //         res.json({ msg: "Add post", list: insertResult.data });
-  //       }
-  //     } catch (dbError) {
-  //       console.error(dbError);
-  //       res.statusCode = 500;
-  //       res.json({ error: 'Database insertion failed' });
-  //     }
-  //   }
-  // })
-
   
-  //.end(imageBuffer);
-  
-  // let result = await db_query.insertpost(username,req.file.filename,title,category);
-  
-  // if(result.status == false){
-  //   res.statusCode = 500;
-  //   res.json({msg:"Invalid credential"})
-  // }else if(result.status == true){
-  //   res.statusCode = 200;
-  //   res.json({msg:"Add post", list:result.data })
-  // }
-
 })
 
 
