@@ -95,36 +95,34 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 
-
 // POST endpoint for image upload
-router.post('/upload',  upload.single('image'),  async (req, res) => {
+router.post('/upload', upload.single('image'), async (req, res) => {
   const imageBuffer = req.file.buffer;
 
-  // Upload the image to Cloudinary
- const result = await  new Promise((resolve,reject) => {
-  cloudinary.uploader.upload(req.file.path, (error, results) => {
-    if (error) {
-      console.error(error);
-      return resolve({status: false})
-     // return res.status(500).json({ error: 'Image upload failed' });
+  try {
+    // Upload the image to Cloudinary
+    const result = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload(req.file.path, (error, results) => {
+        if (error) {
+          console.error(error);
+          return reject(error);
+        } else {
+          // Return the Cloudinary URL of the uploaded image
+          return resolve({ status: true, imageUrl: results.secure_url });
+        }
+      });
+    });
+
+    if (result.status === true) {
+      res.status(200).json({ msg: "Image uploaded successfully", imageUrl: result.imageUrl });
     } else {
-      // Return the Cloudinary URL of the uploaded image
-      return resolve({status: true, imageurl: results.secure_url})
-    //  return res.status(200).json({ imageUrl: result.secure_url });
+      res.status(500).json({ msg: "Image upload failed" });
     }
-  })
-
-  if(result.status == false){
-    res.statusCode = 500;
-    res.json({msg:"Invalid credential"})
-  }else if(result.status == true){
-    res.statusCode = 200;
-    res.json({msg: "image in", list: result.imageurl})
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Image upload failed", error: error.message });
   }
- } ) 
 });
-
-
 
  
 
