@@ -96,7 +96,7 @@ const upload = multer({ storage: storage });
 
 
 // POST endpoint for image upload
-router.post('/upload', upload.single('file'), async (req, res) => {
+router.post('/upload', upload.single('image'), async (req, res) => {
   const imageBuffer = req.file.buffer;
 
   try {
