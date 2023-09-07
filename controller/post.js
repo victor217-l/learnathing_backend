@@ -101,8 +101,8 @@ router.post('/upload',  upload.single('image'),  async (req, res) => {
   const imageBuffer = req.file.buffer;
 
   // Upload the image to Cloudinary
- const result = new Promise((resolve,reject) => {
-  cloudinary.uploader.upload(req.file.path,{ folder: 'home' }, (error, results) => {
+ const result = await  new Promise((resolve,reject) => {
+  cloudinary.uploader.upload(req.file.path, (error, results) => {
     if (error) {
       console.error(error);
       return resolve({status: false})
