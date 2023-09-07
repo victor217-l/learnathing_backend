@@ -105,6 +105,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
       cloudinary.uploader.upload(req.file.path, (error, results) => {
         if (error) {
           console.error(error);
+          console.error('Cloudinary Error:', error.message);
           return reject(error);
         } else {
           // Return the Cloudinary URL of the uploaded image
