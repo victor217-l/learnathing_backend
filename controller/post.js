@@ -114,10 +114,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     });
 
     if (result.status === true) {
-  
         res.status(200).json({ msg: "Image uploaded successfully", imageUrl: result.imageUrl });
-
-
       }else{ 
      
       res.status(500).json({ msg: "Image upload failed" });
