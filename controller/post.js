@@ -86,7 +86,7 @@ router.use(bodyparser.json())
 
 
 // POST endpoint for image upload
-app.post('/upload', upload.single('image'), (req, res) => {
+router.post('/upload', upload.single('image'), (req, res) => {
   const imageBuffer = req.file.buffer;
 
   // Upload the image to Cloudinary
