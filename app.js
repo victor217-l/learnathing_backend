@@ -17,7 +17,7 @@ app.use(express.static('./public'))
 app.use(bodyparser.urlencoded({extended: true}))
 app.use(bodyparser.json());
 
-const PORT = 3000;
+const PORT = 3000 || process.env.PORT;
 
 var server =  http.createServer(app)
 
