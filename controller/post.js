@@ -101,7 +101,7 @@ router.post('/upload', upload.single('image'), (req, res) => {
   const imageBuffer = req.file.buffer;
 
   // Upload the image to Cloudinary
-  cloudinary.uploader.upload(req.file.path,{ folder: 'learnathing' }, (error, result) => {
+  cloudinary.uploader.upload(req.file.path,{ folder: 'home' }, (error, result) => {
     if (error) {
       console.error(error);
       return res.status(500).json({ error: 'Image upload failed' });
