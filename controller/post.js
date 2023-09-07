@@ -109,7 +109,7 @@ router.post('/upload', upload.single('image'), (req, res) => {
       // Return the Cloudinary URL of the uploaded image
       return res.status(200).json({ imageUrl: result.secure_url });
     }
-  }).end(imageBuffer);
+  })
 });
 
 
