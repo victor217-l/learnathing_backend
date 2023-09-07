@@ -86,20 +86,20 @@ router.use(bodyparser.json())
 
 
 // POST endpoint for image upload
-// app.post('/upload', upload.single('image'), (req, res) => {
-//   const imageBuffer = req.file.buffer;
+app.post('/upload', upload.single('image'), (req, res) => {
+  const imageBuffer = req.file.buffer;
 
-//   // Upload the image to Cloudinary
-//   cloudinary.uploader.upload({ folder: 'your_folder_name' }, (error, result) => {
-//     if (error) {
-//       console.error(error);
-//       return res.status(500).json({ error: 'Image upload failed' });
-//     } else {
-//       // Return the Cloudinary URL of the uploaded image
-//       return res.status(200).json({ imageUrl: result.secure_url });
-//     }
-//   }).end(imageBuffer);
-// });
+  // Upload the image to Cloudinary
+  cloudinary.uploader.upload({ folder: 'learnathing' }, (error, result) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Image upload failed' });
+    } else {
+      // Return the Cloudinary URL of the uploaded image
+      return res.status(200).json({ imageUrl: result.secure_url });
+    }
+  }).end(imageBuffer);
+});
 
 
 
@@ -118,21 +118,21 @@ const upload = multer({ storage: storage });
 // });
 
 // Create a route that handles image uploads
-router.post("/upload", upload.single("image"), async (req, res) => {
-  // Get the file uploaded by the user
-  const file = req.file;
+// router.post("/upload", upload.single("image"), async (req, res) => {
+//   // Get the file uploaded by the user
+//   const file = req.file;
 
-  //const path = Buffer.from("my-file.jpg").toString();
+//   //const path = Buffer.from("my-file.jpg").toString();
 
-  const path = file.buffer.toString();
+//   const path = file.buffer.toString();
 
-//cloudinary.uploader.upload(path);
-  // Upload the file to Cloudinary
-  const result = await cloudinary.uploader.upload(path, {folder: "learnathing"});
+// //cloudinary.uploader.upload(path);
+//   // Upload the file to Cloudinary
+//   const result = await cloudinary.uploader.upload(path, {folder: "learnathing"});
 
-  // Return the Cloudinary response to the user
-  res.json(result);
-});
+//   // Return the Cloudinary response to the user
+//   res.json(result);
+// });
 
 
 
