@@ -92,7 +92,9 @@ cloudinary.config({
 })
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+//const upload = multer({ storage: storage });
+
+const upload = multer({ storage: storage, fileField: 'file' });
 
 
 // POST endpoint for image upload
