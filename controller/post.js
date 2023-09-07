@@ -120,7 +120,7 @@ router.post('/upload', upload.single('image'), async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msg: "Image upload failed", error: error.message });
+    res.status(500).json({ msg: "Image ffupload failed", error: error.message });
   }
 });
 
