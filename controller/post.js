@@ -12,11 +12,11 @@ router.use(bodyparser.urlencoded({extended: true}))
 router.use(bodyparser.json())
 
 
-  var cloudinaryy = cloudinary.config({ 
-  cloud_name: 'detjbvvp6', 
-  api_key: '459747664558291', 
-  api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
-})
+//   var cloudinaryy = cloudinary.config({ 
+//   cloud_name: 'detjbvvp6', 
+//   api_key: '459747664558291', 
+//   api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
+// })
 
 
 
@@ -85,6 +85,17 @@ router.use(bodyparser.json())
 // });
 
 
+cloudinary.config({ 
+  cloud_name: 'detjbvvp6', 
+  api_key: '459747664558291', 
+  api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
+})
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+
+
 // POST endpoint for image upload
 router.post('/upload', upload.single('image'), (req, res) => {
   const imageBuffer = req.file.buffer;
@@ -103,15 +114,7 @@ router.post('/upload', upload.single('image'), (req, res) => {
 
 
 
- cloudinary.config({ 
-  cloud_name: 'detjbvvp6', 
-  api_key: '459747664558291', 
-  api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
-})
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
+ 
 
 // const upload = multer({
 //   storage: multer.memoryStorage(),
