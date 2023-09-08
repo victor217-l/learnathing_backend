@@ -12,11 +12,6 @@ router.use(bodyparser.urlencoded({extended: true}))
 router.use(bodyparser.json())
 
 
-//   var cloudinaryy = cloudinary.config({ 
-//   cloud_name: 'detjbvvp6', 
-//   api_key: '459747664558291', 
-//   api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
-// })
 
 
 
@@ -67,66 +62,103 @@ router.use(bodyparser.json())
 //   }
 // })
 
-//  var upload = multer({storage: storage})
+
+const admin = require("firebase-admin");
+const serviceAccount = require("../google-services (1).json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: "gs://tiktokcloneflutter-68673.appspot.com",
+});
 
 
-// const imagePath = 'public/asset/images/upload_images'; // Replace with the path to your image file
-// const options = { folder: 'learnathing' }; // Optional: Set a folder in your Cloudinary account
 
-// cloudinary.uploader.upload(imagePath, options, (error, result) => {
-//   if (error) {
-//     console.error(error);
-//     // Handle the error, e.g., send an error response to the client
-//   } else {
-//     console.log(result);
-//     // The result object contains the uploaded image details, including the public URL
-//     // You can send this URL back to the client or use it as needed
-//   }
-// });
-
-
-cloudinary.config({ 
-  cloud_name: 'detjbvvp6', 
-  api_key: '459747664558291', 
-  api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
-})
-
+// Set up Multer storage
 const storage = multer.memoryStorage();
-//const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
-const upload = multer({ storage: storage, fileField: 'file' });
-
-
-// POST endpoint for image upload
-router.post('/upload', upload.single('image'), async (req, res) => {
-  const imageBuffer = req.file.buffer;
-
+// Handle image upload
+router.post("/upload", upload.single("image"), async (req, res) => {
   try {
-    // Upload the image to Cloudinary
-    const result = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload(req.file.path, {folder: "home"} , (error, results) => {
-        if (error) {
-          console.error(error);
-          console.error('Cloudinary Error:', error.message);
-          return reject(error);
-        } else {
-          // Return the Cloudinary URL of the uploaded image
-          return resolve({ status: true, imageUrl: results.secure_url });
-        }
-      });
+    const file = req.file;
+    if (!file) {
+      return res.status(400).send("No file uploaded.");
+    }
+
+    // Upload the file to Firebase Storage
+    const bucket = admin.storage().bucket();
+    const uniqueFileName = `${Date.now()}_${file.originalname}`;
+    const blob = bucket.file(uniqueFileName);
+
+    const blobStream = blob.createWriteStream({
+      metadata: {
+        contentType: file.mimetype,
+      },
     });
 
-    if (result.status === true) {
-        res.status(200).json({ msg: "Image uploaded successfully", imageUrl: result.imageUrl });
-      }else{ 
-     
-      res.status(500).json({ msg: "Image upload failed" });
-    }
+    blobStream.on("error", (err) => {
+      console.error(err);
+      res.status(500).send("Error uploading the image.");
+    });
+
+    blobStream.on("finish", () => {
+      const imageUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+      res.status(200).json({ imageUrl });
+    });
+
+    blobStream.end(file.buffer);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msg: "Image ffupload failed", error: error.message });
+    res.status(500).send("Server error.");
   }
 });
+
+
+
+
+
+// cloudinary.config({ 
+//   cloud_name: 'detjbvvp6', 
+//   api_key: '459747664558291', 
+//   api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
+// })
+
+// const storage = multer.memoryStorage();
+// //const upload = multer({ storage: storage });
+
+// const upload = multer({ storage: storage, fileField: 'file' });
+
+
+// // POST endpoint for image upload
+// router.post('/upload11', upload.single('image'), async (req, res) => {
+//   const imageBuffer = req.file.buffer;
+
+//   try {
+//     // Upload the image to Cloudinary
+//     const result = await new Promise((resolve, reject) => {
+//       cloudinary.uploader.upload(req.file.path, {folder: "home"} , (error, results) => {
+//         if (error) {
+//           console.error(error);
+//           console.error('Cloudinary Error:', error.message);
+//           return reject(error);
+//         } else {
+//           // Return the Cloudinary URL of the uploaded image
+//           return resolve({ status: true, imageUrl: results.secure_url });
+//         }
+//       });
+//     });
+
+//     if (result.status === true) {
+//         res.status(200).json({ msg: "Image uploaded successfully", imageUrl: result.imageUrl });
+//       }else{ 
+     
+//       res.status(500).json({ msg: "Image upload failed" });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ msg: "Image ffupload failed", error: error.message });
+//   }
+// });
 
  
 
