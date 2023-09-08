@@ -67,7 +67,7 @@ const admin = require("firebase-admin");
 const serviceAccount = require("../google-services.json");
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(serviceAccount.project_info.project_id),
   storageBucket: "gs://tiktokcloneflutter-68673.appspot.com",
 });
 
