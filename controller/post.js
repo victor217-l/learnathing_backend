@@ -98,13 +98,13 @@ const upload = multer({ storage: storage, fileField: 'file' });
 
 
 // POST endpoint for image upload
-router.post('/upload', upload.single('file'), async (req, res) => {
+router.post('/upload', upload.single('image'), async (req, res) => {
   const imageBuffer = req.file.buffer;
 
   try {
     // Upload the image to Cloudinary
     const result = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload(req.file.path, (error, results) => {
+      cloudinary.uploader.upload(req.file.path, {folder: "home"} , (error, results) => {
         if (error) {
           console.error(error);
           console.error('Cloudinary Error:', error.message);
