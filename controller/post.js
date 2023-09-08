@@ -64,7 +64,7 @@ router.use(bodyparser.json())
 
 
 const admin = require("firebase-admin");
-const serviceAccount = require("../google-services (1).json");
+const serviceAccount = require("../google-services .json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
