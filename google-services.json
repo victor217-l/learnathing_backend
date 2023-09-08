@@ -1,9 +1,10 @@
 {
   "project_id": "tiktokcloneflutter-68673",
-  "project_info": {
-    "project_number": "945436769707",
+  "project_number": "945436769707",
     
-    "storage_bucket": "tiktokcloneflutter-68673.appspot.com"
+  "storage_bucket": "tiktokcloneflutter-68673.appspot.com",
+  "project_info": {
+   
   },
   "client": [
     {
