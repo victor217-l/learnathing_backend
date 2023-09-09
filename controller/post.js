@@ -352,7 +352,7 @@ router.get('/all_post', authenticateToken, async (req,res) => {
     // })
 
     res.statusCode = 200;
-    res.json({msg:"All post ", list:result.data, list: postsWithImageURLs})
+    res.json({msg:"All post ", list:result.data,})
   }
 
 })
