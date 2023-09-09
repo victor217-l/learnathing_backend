@@ -102,6 +102,15 @@ const upload = multer({ storage: storage });
 
 // Create a route to upload images
 router.post("/upload", upload.single("image"), async (req, res) => {
+
+  var title = req.body.title;
+  //var filename = req.file.filename;
+  var username = req.body.username;
+  var category = req.body.category;
+ // var image = req.file.image;
+
+
+
   try {
     // Get the image file from the request
     const file = req.file;
@@ -127,16 +136,31 @@ router.post("/upload", upload.single("image"), async (req, res) => {
       res.status(500).send("Error uploading the image.");
     });
 
-    blobStream.on("finish", () => {
+    blobStream.on("finish", async ()  => {
       const imageUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-      res.status(200).json({ imageUrl });
+
+       // res.status(200).json({ imageUrl });
+
+      let result = await db_query.insertpost(username,imageUrl,title,category);
+      if(result.status == false){
+        res.statusCode = 500;
+        res.json({msg:"Invalid credential"})
+      }else if(result.status == true){
+        res.statusCode = 200;
+        res.json({msg: "post in", imageUrl: imageUrl})
+      }
+    
+
     });
 
     blobStream.end(file.buffer);
+    
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error.");
   }
+
+ 
 });
 
 
