@@ -66,27 +66,48 @@ router.use(bodyparser.json())
 const admin = require("firebase-admin");
 const serviceAccount = require("../google-services.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  storageBucket: "gs://tiktokcloneflutter-68673.appspot.com",
+
+
+
+
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   storageBucket: "gs://tiktokcloneflutter-68673.appspot.com",
+// });
+
+
+
+// Initialize the Firebase Admin SDK
+firebase.initializeApp({
+  projectId: 'tiktokcloneflutter-68673',
+  credential: firebase.credential.applicationDefault()
 });
 
+// Configure Multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
 
-
-// Set up Multer storage
-const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-// Handle image upload
-router.post("/upload", upload.single("image"), async (req, res) => {
+// Create a route to upload images
+app.post("/upload", upload.single("image"), async (req, res) => {
   try {
+    // Get the image file from the request
     const file = req.file;
+
+    // If no file is uploaded, return an error
     if (!file) {
       return res.status(400).send("No file uploaded.");
     }
 
     // Upload the file to Firebase Storage
-    const bucket = admin.storage().bucket();
+    const bucket = firebase.storage().bucket();
     const uniqueFileName = `${Date.now()}_${file.originalname}`;
     const blob = bucket.file(uniqueFileName);
 
@@ -112,6 +133,47 @@ router.post("/upload", upload.single("image"), async (req, res) => {
     res.status(500).send("Server error.");
   }
 });
+
+
+// // Set up Multer storage
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
+
+// // Handle image upload
+// router.post("/upload", upload.single("image"), async (req, res) => {
+//   try {
+//     const file = req.file;
+//     if (!file) {
+//       return res.status(400).send("No file uploaded.");
+//     }
+
+//     // Upload the file to Firebase Storage
+//     const bucket = admin.storage().bucket();
+//     const uniqueFileName = `${Date.now()}_${file.originalname}`;
+//     const blob = bucket.file(uniqueFileName);
+
+//     const blobStream = blob.createWriteStream({
+//       metadata: {
+//         contentType: file.mimetype,
+//       },
+//     });
+
+//     blobStream.on("error", (err) => {
+//       console.error(err);
+//       res.status(500).send("Error uploading the image.");
+//     });
+
+//     blobStream.on("finish", () => {
+//       const imageUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+//       res.status(200).json({ imageUrl });
+//     });
+
+//     blobStream.end(file.buffer);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Server error.");
+//   }
+// });
 
 
 
