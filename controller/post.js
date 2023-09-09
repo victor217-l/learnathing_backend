@@ -63,7 +63,7 @@ router.use(bodyparser.json())
 // })
 
 
-const admin = require("firebase-admin");
+const firebase = require("firebase-admin");
 const serviceAccount = require("../google-services.json");
 
 
