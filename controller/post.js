@@ -84,14 +84,17 @@ firebase.initializeApp({
 });
 
 // Configure Multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "./public/asset/images/upload_images");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + "-" + file.originalname);
+//   },
+// });
+
+const storage = multer.memoryStorage();
+//const upload = multer({ storage: storage });
 
 const upload = multer({ storage: storage });
 
