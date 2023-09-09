@@ -123,7 +123,7 @@ var insertpost = (username,postname,title) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query("insert into post(`username`,`postname`,`title`) values(?,?,?)", [username,postname,title], async (err,rows) => {
+            connection.query("insert into post(`username`,`user_id`,`postname`,`title`,`category`) values(?,?,?,?,?)", [username,postname,title], async (err,rows) => {
                 connection.release();
                 if(err){
                     console.log(err)

@@ -141,7 +141,9 @@ router.post("/upload", upload.single("image"), async (req, res) => {
 
        // res.status(200).json({ imageUrl });
 
-      let result = await db_query.insertpost(username,imageUrl,title,category);
+       const user = 1;
+
+      let result = await db_query.insertpost(username,user,imageUrl,title,category);
       if(result.status == false){
         res.statusCode = 500;
         res.json({msg:"Invalid credential"})
