@@ -80,8 +80,9 @@ const serviceAccount = require("../google-services.json");
 // Initialize the Firebase Admin SDK
 firebase.initializeApp({
   projectId: 'tiktokcloneflutter-68673',
-  credential: firebase.credential.applicationDefault(),
-  storageBucket : 'gs://tiktokcloneflutter-68673.appspot.com'
+  credential: firebase.credential.applicationDefault({jsonFile: serviceAccount}),
+  storageBucket : 'gs://tiktokcloneflutter-68673.appspot.com',
+
 });
 
 // Configure Multer
