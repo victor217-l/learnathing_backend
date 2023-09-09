@@ -96,12 +96,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Create a route to upload images
-app.post("/upload", upload.single("image"), async (req, res) => {
+router.post("/upload", upload.single("image"), async (req, res) => {
   try {
     // Get the image file from the request
     const file = req.file;
 
-    // If no file is uploaded, return an error
+    // If no files is uploaded, return an error
     if (!file) {
       return res.status(400).send("No file uploaded.");
     }
