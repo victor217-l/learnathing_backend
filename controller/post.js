@@ -80,7 +80,7 @@ const serviceAccount = require("../learnathing-84.json");
 // Initialize the Firebase Admin SDK
 firebase.initializeApp({
   projectId: 'tiktokcloneflutter-68673',
-  credential: firebase.credential.applicationDefault({jsonFile: serviceAccount}),
+  credential: firebase.credential.cert(serviceAccount),
   storageBucket : 'gs://tiktokcloneflutter-68673.appspot.com',
 
 });
