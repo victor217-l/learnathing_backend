@@ -79,9 +79,9 @@ const serviceAccount = require("../learnathing-84.json");
 
 // Initialize the Firebase Admin SDK
 firebase.initializeApp({
-  projectId: 'tiktokcloneflutter-68673',
+  projectId: 'learnathing-843a8',
   credential: firebase.credential.cert(serviceAccount),
-  storageBucket : 'gs://tiktokcloneflutter-68673.appspot.com',
+  storageBucket : 'gs://learnathing-843a8.appspot.com',
 
 });
 
@@ -112,7 +112,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
     }
 
     // Upload the file to Firebase Storage
-    const bucket = firebase.storage().bucket('gs://tiktokcloneflutter-68673.appspot.com');
+    const bucket = firebase.storage().bucket("gs://learnathing-843a8.appspot.com");
     const uniqueFileName = `${Date.now()}_${file.originalname}`;
     const blob = bucket.file(uniqueFileName);
 
