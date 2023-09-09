@@ -64,7 +64,7 @@ router.use(bodyparser.json())
 
 
 const firebase = require("firebase-admin");
-const serviceAccount = require("../google-services.json");
+const serviceAccount = require("../learnathing-84.json");
 
 
 
