@@ -80,7 +80,8 @@ const serviceAccount = require("../google-services.json");
 // Initialize the Firebase Admin SDK
 firebase.initializeApp({
   projectId: 'tiktokcloneflutter-68673',
-  credential: firebase.credential.applicationDefault()
+  credential: firebase.credential.applicationDefault(),
+  storageBucket : 'gs://tiktokcloneflutter-68673.appspot.com'
 });
 
 // Configure Multer
@@ -110,7 +111,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
     }
 
     // Upload the file to Firebase Storage
-    const bucket = firebase.storage().bucket();
+    const bucket = firebase.storage().bucket('gs://tiktokcloneflutter-68673.appspot.com');
     const uniqueFileName = `${Date.now()}_${file.originalname}`;
     const blob = bucket.file(uniqueFileName);
 
