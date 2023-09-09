@@ -119,16 +119,15 @@ var getuserlogin = (email,password) => {
 
 // forpost 
 
-var insertpost = (username,postname,title) => {
+var insertpost = (username,user,postname,title,category) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query("insert into post(`username`,`user_id`,`postname`,`title`,`category`) values(?,?,?,?,?)", [username,postname,title], async (err,rows) => {
+            connection.query("insert into post(`username`,`user_id`,`postname`,`title`,`category`) values(?,?,?,?,?)", [username,user,postname,title,category], async (err,rows) => {
                 connection.release();
                 if(err){
                     console.log(err)
                     return resolve({status: false})
-                    
                 }else{
                     return resolve({status: true, data:rows})
                 }
