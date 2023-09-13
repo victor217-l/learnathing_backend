@@ -309,7 +309,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
         //  res.json({msg:"Error"})
         } else {
         return  resolve(result); // Resolve the promise with the Cloudinary result on success
-        //  res.json({msg:"Succes"})
+        //  res.json({msg:   "Succes"})
         }
       });
     });
@@ -375,11 +375,7 @@ router.post('/user_post', authenticateToken, async (req,res) => {
     res.statusCode = 500;
     res.json({msg:"Invalid credential"})
   }else if(result.status == true){
-    const postsWithImageURLs = result.data.map(post => {
-      const imageUrl = `/uploads/${post.imageFileName}`;
-
-      return {...post, imageUrl}
-    })
+    
     res.statusCode = 200;
     res.json({msg:"users post", list:result.data, list2: postsWithImageURLs})
   }
