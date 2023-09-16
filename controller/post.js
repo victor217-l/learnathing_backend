@@ -266,7 +266,7 @@ const upload = multer({
 });
 
 
-router.post('/addpost',  authenticateToken, upload.single("image"), async (req,res) => {
+router.post('/addpost',  authenticateToken, upload.single("file"), async (req,res) => {
 
   var title = req.body.title;
   //var filename = req.file.filename;
