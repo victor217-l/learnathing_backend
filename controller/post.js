@@ -324,7 +324,7 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
     
 
   router.post("/uploadimage", (req, res) => {
-    uploadImage(req.body.image)
+    uploadImage(req.files.image)
       .then((url) => res.send(url))
       .catch((err) => res.status(500).send(err));
   });
