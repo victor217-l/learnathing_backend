@@ -263,44 +263,35 @@ const upload = multer({ storage: storage });
 
   // Upload the image to Cloudinary
 
-  try {
+  
 
-
-    const file = req.file;
-
-  if (!file) {
-    res.statusCode = 400;
-    res.json({ msg: "Image file is required" });
-   // return;
-  } 
-    // Upload the image to Cloudinary and await the result
-    const result = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload(file.path, { folder: 'learnathing' }, (error, result) => {
-        if (error) {
-          console.error(error);
-         return   reject(error); // Reject the promise on error
-        //  res.json({msg:"Error"})
-        } else {
-          console.log(result)
-        return  resolve(result); 
-       // Resolve the promise with the Cloudinary result on success
-        //  res.json({msg:   "Succes"})
-        }
+    try {
+      // Upload the image to Cloudinary and await the result
+      const result = await new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(file.path, { folder: 'learnathing' }, (error, result) => {
+          if (error) {
+            console.error(error);
+            return reject(error); // Reject the promise on error
+          } else {
+            return resolve(result); // Resolve the promise with the Cloudinary result on success
+          }
+        });
       });
-    });
-  
+      console.log(result)
+    } catch (error) {
+      // Handle the Cloudinary uploader error
+      if (error.http_code === 400) {
+        res.statusCode = 400;
+        res.json({ msg: "Image upload failed: " + error.message });
+      } else {
+        res.statusCode = 500;
+        res.json({ msg: "Image upload failed: An internal server error occurred" });
+      }
+    }
 
-    console.log(result)
-    // Once the image is successfully uploaded to Cloudinary, insert the post into your database
-   
-  } catch (error) {
-    console.error(error);
-    res.statusCode = 500;
-    res.json({ error: 'Image upload or database insertion failed', cloudinaryError: error });
-  }
-  
-  
-})
+  });
+
+    
 
 
 router.get('/all_post', authenticateToken, async (req,res) => {
