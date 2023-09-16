@@ -95,10 +95,6 @@ firebase.initializeApp({
 //   },
 // });
 
-const storage = multer.memoryStorage();
-//const upload = multer({ storage: storage });
-
-const upload = multer({ storage: storage });
 
 // Create a route to upload images
 router.post("/upload", upload.single("image"), async (req, res) => {
@@ -285,6 +281,12 @@ cloudinary.config({
   api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
 })
 
+const storage = multer.memoryStorage();
+//const upload = multer({ storage: storage });
+
+const upload = multer({ storage: storage });
+
+
 
  router.post('/addpost',  authenticateToken, upload.single("images"), async (req,res) => {
 
@@ -294,8 +296,9 @@ cloudinary.config({
   var category = req.body.category;
  // var image = req.file.image;
 
+ const file = req.file;
 
-  if (!req.file) {
+  if (!file) {
     res.statusCode = 400;
     res.json({ msg: "Image file is required" });
    // return;
