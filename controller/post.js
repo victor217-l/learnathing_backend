@@ -263,6 +263,10 @@ const upload = multer({ storage: storage });
 
   // Upload the image to Cloudinary
 
+  const file = req.file;
+
+  
+
   
 
     try {
