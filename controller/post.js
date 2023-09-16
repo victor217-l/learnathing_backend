@@ -279,6 +279,12 @@ router.post("/upload", upload.single("image"), async (req, res) => {
 
 
 
+cloudinary.config({ 
+  cloud_name: 'detjbvvp6', 
+  api_key: '459747664558291', 
+  api_secret: 'BJcWiKnmTPQ-b5zHNiwvNbPHNSY' 
+})
+
 
  router.post('/addpost',  authenticateToken, upload.single("images"), async (req,res) => {
 
