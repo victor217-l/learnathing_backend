@@ -5,6 +5,7 @@ var signup = require('./controller/signup')
 var verify = require('./controller/verify')
 var login = require('./controller/login');
 var post = require('./controller/post')
+const fileupload = require('express-fileupload'); 
 
 var http = require('http')
 require('dotenv').config();
@@ -16,6 +17,7 @@ const app = express();
 app.use(express.static('./public'))
 app.use(bodyparser.urlencoded({extended: true}))
 app.use(bodyparser.json());
+app.use(fileupload({useTempFiles: true}))
 
 const PORT = 3000 || process.env.PORT;
 
