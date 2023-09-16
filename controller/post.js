@@ -244,11 +244,29 @@ cloudinary.config({
 const storage = multer.memoryStorage();
 //const upload = multer({ storage: storage });
 
-const upload = multer({ storage: storage });
+//const upload = multer({ storage: storage });
+const upload = multer({
+  fileFilter: function(req, file, cb) {
+    // Check if the image file is too large.
+    if (file.size > 1000000) {
+      cb(new Error('Image file is too large'));
+      return;
+    }
+
+    // Check if the image file is in a supported format.
+    const supportedFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/tiff'];
+    if (!supportedFormats.includes(file.mimetype)) {
+      cb(new Error('Image file is in an invalid format'));
+      return;
+    }
+
+    // The image file is valid.
+    cb(null, true);
+  }
+});
 
 
-
- router.post('/addpost',  authenticateToken, upload.single("image"), async (req,res) => {
+router.post('/addpost',  authenticateToken, upload.single("image"), async (req,res) => {
 
   var title = req.body.title;
   //var filename = req.file.filename;
