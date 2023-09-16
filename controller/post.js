@@ -137,13 +137,14 @@ router.post("/upload", upload.single("image"), async (req, res) => {
     });
 
     blobStream.on("finish", async ()  => {
-      const imageUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+      const imageUrl = `${blob.name}`;
+      //https://storage.googleapis.com/${bucket.name}/
 
        // res.status(200).json({ imageUrl });
 
        const user = 1;
 
-      let result = await db_query.insertpost(username,user,imageUrl,title,category);
+      let result = await db_query.insertpost(username,user,blob.name,title,category);
       if(result.status == false){
         res.statusCode = 500;
         res.json({msg:"Invalid credential"})
