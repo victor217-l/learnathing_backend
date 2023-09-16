@@ -282,7 +282,7 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
 
   // Upload the image to Cloudinary
 
-  if (!file) {
+  if (!file.image) {
     res.statusCode = 400;
     res.json({ msg: "Image file is required" });
     return;
