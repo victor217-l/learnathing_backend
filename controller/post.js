@@ -278,9 +278,14 @@ const upload = multer({ storage: storage });
         });
       });
       console.log(result)
+
+      res.statusCode = 200;
+      res.json({ msg: "Image upload successful", imageUrl: result.secure_url });
+
+
     } catch (error) {
       // Handle the Cloudinary uploader error
-      if (error.http_code === 400) {
+      if (error.http_code === 400 && error.message.includes("Missing required parameter")) {
         res.statusCode = 400;
         res.json({ msg: "Image upload failed: " + error.message });
       } else {
