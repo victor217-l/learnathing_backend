@@ -282,12 +282,18 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
 
   // Upload the image to Cloudinary
 
-  const file = req.file.image;
+  if (!file) {
+    res.statusCode = 400;
+    res.json({ msg: "Image file is required" });
+    return;
+  }
+
+ // const file = req.file.image;
 
     try {
       // Upload the image to Cloudinary and await the result
       const result = await new Promise((resolve, reject) => {
-        cloudinary.uploader.upload(file, { folder: 'learnathing' }, (error, result) => {
+        cloudinary.uploader.upload(file.image, { folder: 'learnathing' }, (error, result) => {
           if (error) {
             console.error(error);
             return reject(error); // Reject the promise on error
