@@ -315,12 +315,16 @@ cloudinary.config({
          return   reject(error); // Reject the promise on error
         //  res.json({msg:"Error"})
         } else {
-        return  resolve(result); // Resolve the promise with the Cloudinary result on success
+          console.log(result)
+        return  resolve(result); 
+       // Resolve the promise with the Cloudinary result on success
         //  res.json({msg:   "Succes"})
         }
       });
     });
   
+
+    console.log(result)
     // Once the image is successfully uploaded to Cloudinary, insert the post into your database
    
   } catch (error) {
