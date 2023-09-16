@@ -256,13 +256,7 @@ const upload = multer({ storage: storage });
   var category = req.body.category;
  // var image = req.file.image;
 
- const file = req.file;
-
-  if (!file) {
-    res.statusCode = 400;
-    res.json({ msg: "Image file is required" });
-   // return;
-  } 
+ 
 
   // Prepare the image for Cloudinary upload
   //const imageBuffer = req.file.buffer;
@@ -270,6 +264,15 @@ const upload = multer({ storage: storage });
   // Upload the image to Cloudinary
 
   try {
+
+
+    const file = req.file;
+
+  if (!file) {
+    res.statusCode = 400;
+    res.json({ msg: "Image file is required" });
+   // return;
+  } 
     // Upload the image to Cloudinary and await the result
     const result = await new Promise((resolve, reject) => {
       cloudinary.uploader.upload(req.file.path, { folder: 'learnathing' }, (error, result) => {
