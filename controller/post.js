@@ -266,7 +266,7 @@ const upload = multer({
 });
 
 
-router.post('/addpost',  authenticateToken, upload.single("file"), async (req,res) => {
+router.post('/addpost',  authenticateToken, upload.single("image"), async (req,res) => {
 
   var title = req.body.title;
   //var filename = req.file.filename;
@@ -290,7 +290,7 @@ router.post('/addpost',  authenticateToken, upload.single("file"), async (req,re
     try {
       // Upload the image to Cloudinary and await the result
       const result = await new Promise((resolve, reject) => {
-        cloudinary.uploader.upload(file.path, { folder: 'learnathing' }, (error, result) => {
+        cloudinary.uploader.upload(file.path,  (error, result) => {
           if (error) {
             console.error(error);
             return reject(error); // Reject the promise on error
