@@ -46,7 +46,7 @@ check('password').notEmpty().withMessage('password field is empty')], async (req
                 res.json({msg:"Login succesful", accesstoken: accesstoken, 
                 user_id: user_id,
                 username: username,
-                email: email3, refreshtoken:refreshtoken})
+                email: email3, refreshtoken:refreshto,ken})
             }else{
                 res.statusCode = 500;
                 res.json({msg: "Invalid credential"})
