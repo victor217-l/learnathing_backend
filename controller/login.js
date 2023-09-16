@@ -40,7 +40,7 @@ check('password').notEmpty().withMessage('password field is empty')], async (req
         }else if(result.status == true){
             if(result.data.length > 0){
                 var email3 = result.data[0].email
-                var user_id = result.data[0].user_id;
+                var user_id = result.data[0].id;
                 var username = result.data[0].username;
 
                 res.json({msg:"Login succesful", accesstoken: accesstoken, 
