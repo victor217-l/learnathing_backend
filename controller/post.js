@@ -322,15 +322,7 @@ cloudinary.config({
     });
   
     // Once the image is successfully uploaded to Cloudinary, insert the post into your database
-    const insertResult = await db_query.insertpost(username, result.secure_url, title, category);
-  
-    if (insertResult.status == false) {
-      res.statusCode = 500;
-      res.json({ msg: "Invalid credential" });
-    } else if (insertResult.status == true) {
-      res.statusCode = 200;
-      res.json({ msg: "Add post", list: insertResult.data });
-    }
+   
   } catch (error) {
     console.error(error);
     res.statusCode = 500;
