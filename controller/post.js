@@ -306,7 +306,7 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
       // res.statusCode = 200;
       // res.json({ msg: "Image upload successful", imageUrl: result.secure_url });
 
-      if(result.status == true){
+      if(result.status === true){
 
        
       let resultt = await db_query.insertpost(username,user,result.data.secure_url,title,category);
