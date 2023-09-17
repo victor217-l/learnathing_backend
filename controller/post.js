@@ -303,12 +303,12 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
       });
       console.log(result)
 
-      res.statusCode = 200;
-      res.json({ msg: "Image upload successful", imageUrl: result.secure_url });
+      // res.statusCode = 200;
+      // res.json({ msg: "Image upload successful", imageUrl: result.secure_url });
 
       if(res.statusCode == 200){
        
-      let resultt = await db_query.insertpost(username,user,blob.name,title,category);
+      let resultt = await db_query.insertpost(username,user,result.secure_url,title,category);
       if(resultt.status == false){
         res.statusCode = 500;
         res.json({msg:"Invalid credential"})
