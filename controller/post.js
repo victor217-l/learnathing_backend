@@ -284,91 +284,93 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
   // Upload the image to Cloudinary
 
   const file = req.files.image;
-
- 
-
- 
-
-    try {
-      // Upload the image to Cloudinary and await the result
-      const cloudinaryResult  = await new Promise((resolve, reject) => {
-        cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing'}, (error, result) => {
-          if (error) {
-            console.error(error);
-            return reject({status: false})// Reject the promise on error
-          } else {
-            return resolve({status: true, data:result}); // Resolve the promise with the Cloudinary result on success
-          }
-        });
-      });
-      
-
-      // res.statusCode = 200;
-      // res.json({ msg: "Image upload successful", imageUrl: result.secure_url });
-
-      if(cloudinaryResult.status === true){
-        console.log(cloudinaryResult)
-       
-      let resultt = await db_query.insertpost(username,user,cloudinaryResult.data.secure_url,title,category);
-      console.log(cloudinaryResult.data.secure_url);
-      if(resultt.status === false){
-        res.statusCode = 500;
-        res.json({msg:"Invalid credential"})
-        }else{
-        res.statusCode = 200;
-        res.json({msg: "post in", imageUrl: cloudinaryResult.data.secure_url})
+  try {
+    // Upload the image to Cloudinary and await the result
+    const cloudinaryResult = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_large(file.tempFilePath, { folder: 'learnathing' }, (error, result) => {
+        if (error) {
+          console.error(error);
+          return reject({ status: false, error }); // Reject the promise on error and include the error details
+        } else {
+          return resolve({ status: true, data: result }); // Resolve the promise with the Cloudinary result on success
         }
-      }else{
+      });
+    });
+  
+    if (cloudinaryResult.status === true) {
+      // Image upload to Cloudinary succeeded
+      console.log(cloudinaryResult);
+      const resultt = await db_query.insertpost(username, user, cloudinaryResult.data.secure_url, title, category);
+  
+      if (resultt.status === false) {
         res.statusCode = 500;
-        res.json({msg:"Invalid credential"})
-      }
-
-
-    } catch (error) {
-      // Handle the Cloudinary uploader error
-      if (error.http_code === 400 && error.message.includes("Missing required parameter")) {
-        res.statusCode = 400;
-        res.json({ msg: "Image upload failed: " + error.message });
+        res.json({ msg: "Invalid credential" });
       } else {
-        res.statusCode = 500;
-        res.json({ msg: "Image upload failed: An internal server error occurred" });
+        res.statusCode = 200;
+        res.json({ msg: "Post created", imageUrl: cloudinaryResult.data.secure_url });
       }
+    } else {
+      // Image upload to Cloudinary failed
+      res.statusCode = 500;
+      res.json({ msg: `Image upload failed: ${cloudinaryResult.error.message}` });
     }
+  } catch (error) {
+    // Handle other errors, such as network issues or unexpected exceptions
+    console.error(error);
+    res.statusCode = 500;
+    res.json({ msg: "An internal server error occurred" });
+  }
+})  
+ 
 
-  });
-
-    
-
-  
-
-  
-
-// const uploadImage = (image) => {
-//   //imgage = > base64
-//   return new Promise((resolve, reject) => {
-//     cloudinary.uploader.upload(image, opts, (error, result) => {
-//       if (result && result.secure_url) {
-//         console.log(result.secure_url);
-//         return resolve(result.secure_url);
+ 
+// try {
+//   // Upload the image to Cloudinary and await the result
+//   const cloudinaryResult  = await new Promise((resolve, reject) => {
+//     cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing'}, (error, result) => {
+//       if (error) {
+//         console.error(error);
+//         return reject({status: false})// Reject the promise on error
+//       } else {
+//         return resolve({status: true, data:result}); // Resolve the promise with the Cloudinary result on success
 //       }
-//       console.log(error.message);
-//       return reject({ message: error.message });
 //     });
 //   });
-// };
-// module.exports = (image) => {
-//   //imgage = > base64
-//   return new Promise((resolve, reject) => {
-//     cloudinary.uploader.upload(image, opts, (error, result) => {
-//       if (result && result.secure_url) {
-//         console.log(result.secure_url);
-//         return resolve(result.secure_url);
-//       }
-//       console.log(error.message);
-//       return reject({ message: error.message });
-//     });
-//   });
-// };
+  
+
+//   // res.statusCode = 200;
+//   // res.json({ msg: "Image upload successful", imageUrl: result.secure_url });
+
+//   if(cloudinaryResult.status === true){
+//     console.log(cloudinaryResult)
+   
+//   let resultt = await db_query.insertpost(username,user,cloudinaryResult.data.secure_url,title,category);
+//   console.log(cloudinaryResult.data.secure_url);
+//   if(resultt.status === false){
+//     res.statusCode = 500;
+//     res.json({msg:"Invalid credential"})
+//     }else{
+//     res.statusCode = 200;
+//     res.json({msg: "post in", imageUrl: cloudinaryResult.data.secure_url})
+//     }
+//   }else{
+//     res.statusCode = 500;
+//     res.json({msg:"Invalid credential"})
+//   }
+
+
+// } catch (error) {
+//   // Handle the Cloudinary uploader error
+//   if (error.http_code === 400 && error.message.includes("Missing required parameter")) {
+//     res.statusCode = 400;
+//     res.json({ msg: "Image upload failed: " + error.message });
+//   } else {
+//     res.statusCode = 500;
+//     res.json({ msg: "Image upload failed: An internal server error occurred" });
+//   }
+// }
+
+// });
 
 
 router.get('/all_post', authenticateToken, async (req,res) => {
