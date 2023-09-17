@@ -301,17 +301,17 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
           }
         });
       });
-      console.log(result)
+      
 
       // res.statusCode = 200;
       // res.json({ msg: "Image upload successful", imageUrl: result.secure_url });
 
       if(cloudinaryResult.status === true){
-
+        console.log(cloudinaryResult)
        
       let resultt = await db_query.insertpost(username,user,cloudinaryResult.data.secure_url,title,category);
       console.log(cloudinaryResult.data.secure_url);
-         if(resultt.status === false){
+      if(resultt.status === false){
         res.statusCode = 500;
         res.json({msg:"Invalid credential"})
         }else{
