@@ -339,9 +339,9 @@ const opts = {
 
 
 const uploadImage = (base64Image) => {
-  const buffer = Buffer.from(base64Image, 'base64');
+  //const buffer = Buffer.from(base64Image, 'base64');
   return new Promise((resolve, reject) => {
-    cloudinary.uploader.upload(buffer, opts, (error, result) => {
+    cloudinary.uploader.upload(base64Image, opts, (error, result) => {
       if (result && result.secure_url) {
         console.log(result.secure_url);
         resolve(result.secure_url);
