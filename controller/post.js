@@ -306,6 +306,21 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
       res.statusCode = 200;
       res.json({ msg: "Image upload successful", imageUrl: result.secure_url });
 
+      if(res.statusCode == 200){
+       
+      let resultt = await db_query.insertpost(username,user,blob.name,title,category);
+      if(resultt.status == false){
+        res.statusCode = 500;
+        res.json({msg:"Invalid credential"})
+      }else if(resultt.status == true){
+        res.statusCode = 200;
+        res.json({msg: "post in", imageUrl: imageUrl})
+      }
+      }else{
+        res.statusCode = 500;
+        res.json({msg:"Invalid credential"})
+      }
+
 
     } catch (error) {
       // Handle the Cloudinary uploader error
