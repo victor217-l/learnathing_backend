@@ -288,7 +288,7 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
     return;
   }
 
-  const file = req.file.image;
+  const file = req.files.image;
 
     try {
       // Upload the image to Cloudinary and await the result
