@@ -292,7 +292,7 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
     try {
       // Upload the image to Cloudinary and await the result
       const result = await new Promise((resolve, reject) => {
-        cloudinary.uploader.upload_large(file.tempFilePath,  (error, result) => {
+        cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing'}, (error, result) => {
           if (error) {
             console.error(error);
             return reject(error); // Reject the promise on error
@@ -322,36 +322,9 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
 
     
 
-  router.post("/uploadimage", (req, res) => {
-    uploadImage(req.files.image)
-      .then((url) => res.send(url))
-      .catch((err) => res.status(500).send(err));
-  });
   
 
-
   
-const opts = {
-  overwrite: true,
-  invalidate: true,
-  resource_type: "auto",
-};
-
-
-const uploadImage = (base64Image) => {
-  //const buffer = Buffer.from(base64Image, 'base64');
-  return new Promise((resolve, reject) => {
-    cloudinary.uploader.upload(base64Image, opts, (error, result) => {
-      if (result && result.secure_url) {
-        console.log(result.secure_url);
-        resolve(result.secure_url);
-      } else {
-        console.error(error.message);
-        reject({ message: error.message });
-      }
-    });
-  });
-};
 
 // const uploadImage = (image) => {
 //   //imgage = > base64
