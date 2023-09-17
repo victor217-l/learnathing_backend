@@ -291,7 +291,7 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
 
     try {
       // Upload the image to Cloudinary and await the result
-      const result = await new Promise((resolve, reject) => {
+      const cloudinaryResult  = await new Promise((resolve, reject) => {
         cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing'}, (error, result) => {
           if (error) {
             console.error(error);
@@ -306,19 +306,19 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
       // res.statusCode = 200;
       // res.json({ msg: "Image upload successful", imageUrl: result.secure_url });
 
-      if(result.status === true){
+      if(cloudinaryResult.status === true){
 
        
-      let resultt = await db_query.insertpost(username,user,result.data.secure_url,title,category);
-      console.log(result.data.secure_url);
-      if(resultt.status === false){
+      let resultt = await db_query.insertpost(username,user,cloudinaryResult.data.secure_url,title,category);
+      console.log(cloudinaryResult.data.secure_url);
+         if(resultt.status === false){
         res.statusCode = 500;
         res.json({msg:"Invalid credential"})
-      }else{
+        }else{
         res.statusCode = 200;
-        res.json({msg: "post in", imageUrl: result.data.secure_url})
-      }
-      }else if(result.status == false){
+        res.json({msg: "post in", imageUrl: cloudinaryResult.data.secure_url})
+        }
+      }else{
         res.statusCode = 500;
         res.json({msg:"Invalid credential"})
       }
