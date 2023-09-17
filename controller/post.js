@@ -295,7 +295,7 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
         cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing'}, (error, result) => {
           if (error) {
             console.error(error);
-            return resolve({status: false})// Reject the promise on error
+            return reject({status: false})// Reject the promise on error
           } else {
             return resolve({status: true, data:result}); // Resolve the promise with the Cloudinary result on success
           }
