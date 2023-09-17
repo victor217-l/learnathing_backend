@@ -6,6 +6,7 @@ var db_query = require('../model/db_model')
 var jwt = require('jsonwebtoken')
 const fs = require('fs');
 var cloudinary = require('cloudinary').v2
+const fileupload = require('express-fileupload'); 
 
 
 router.use(bodyparser.urlencoded({extended: true}))
@@ -291,7 +292,7 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
     try {
       // Upload the image to Cloudinary and await the result
       const result = await new Promise((resolve, reject) => {
-        cloudinary.uploader.upload(file,  (error, result) => {
+        cloudinary.uploader.upload(file.tempFilePath,  (error, result) => {
           if (error) {
             console.error(error);
             return reject(error); // Reject the promise on error
@@ -336,32 +337,48 @@ const opts = {
   resource_type: "auto",
 };
 
-const uploadImage = (image) => {
-  //imgage = > base64
+
+const uploadImage = (base64Image) => {
+  const buffer = Buffer.from(base64Image, 'base64');
   return new Promise((resolve, reject) => {
-    cloudinary.uploader.upload(image, opts, (error, result) => {
+    cloudinary.uploader.upload(buffer, opts, (error, result) => {
       if (result && result.secure_url) {
         console.log(result.secure_url);
-        return resolve(result.secure_url);
+        resolve(result.secure_url);
+      } else {
+        console.error(error.message);
+        reject({ message: error.message });
       }
-      console.log(error.message);
-      return reject({ message: error.message });
     });
   });
 };
-module.exports = (image) => {
-  //imgage = > base64
-  return new Promise((resolve, reject) => {
-    cloudinary.uploader.upload(image, opts, (error, result) => {
-      if (result && result.secure_url) {
-        console.log(result.secure_url);
-        return resolve(result.secure_url);
-      }
-      console.log(error.message);
-      return reject({ message: error.message });
-    });
-  });
-};
+
+// const uploadImage = (image) => {
+//   //imgage = > base64
+//   return new Promise((resolve, reject) => {
+//     cloudinary.uploader.upload(image, opts, (error, result) => {
+//       if (result && result.secure_url) {
+//         console.log(result.secure_url);
+//         return resolve(result.secure_url);
+//       }
+//       console.log(error.message);
+//       return reject({ message: error.message });
+//     });
+//   });
+// };
+// module.exports = (image) => {
+//   //imgage = > base64
+//   return new Promise((resolve, reject) => {
+//     cloudinary.uploader.upload(image, opts, (error, result) => {
+//       if (result && result.secure_url) {
+//         console.log(result.secure_url);
+//         return resolve(result.secure_url);
+//       }
+//       console.log(error.message);
+//       return reject({ message: error.message });
+//     });
+//   });
+// };
 
 
 router.get('/all_post', authenticateToken, async (req,res) => {
