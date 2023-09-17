@@ -295,9 +295,9 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
         cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing'}, (error, result) => {
           if (error) {
             console.error(error);
-            return reject(error); // Reject the promise on error
+            return resolve({status: false})// Reject the promise on error
           } else {
-            return resolve(result); // Resolve the promise with the Cloudinary result on success
+            return resolve({status: true, data:result}); // Resolve the promise with the Cloudinary result on success
           }
         });
       });
@@ -306,9 +306,10 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
       // res.statusCode = 200;
       // res.json({ msg: "Image upload successful", imageUrl: result.secure_url });
 
-      if(res.statusCode == 200){
+      if(result.status == true){
        
-      let resultt = await db_query.insertpost(username,user,result.secure_url,title,category);
+      let resultt = await db_query.insertpost(username,user,result.data.secure_url,title,category);
+      console.log(result.data.secure_url);
       if(resultt.status == false){
         res.statusCode = 500;
         res.json({msg:"Invalid credential"})
@@ -316,7 +317,7 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
         res.statusCode = 200;
         res.json({msg: "post in", imageUrl: imageUrl})
       }
-      }else{
+      }else if(result.status == false){
         res.statusCode = 500;
         res.json({msg:"Invalid credential"})
       }
