@@ -292,7 +292,7 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
     try {
       // Upload the image to Cloudinary and await the result
       const result = await new Promise((resolve, reject) => {
-        cloudinary.uploader.upload(file.tempFilePath,  (error, result) => {
+        cloudinary.uploader.upload_large(file.tempFilePath,  (error, result) => {
           if (error) {
             console.error(error);
             return reject(error); // Reject the promise on error
