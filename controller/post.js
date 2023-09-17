@@ -311,10 +311,10 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
        
       let resultt = await db_query.insertpost(username,user,result.data.secure_url,title,category);
       console.log(result.data.secure_url);
-      if(resultt.status == false){
+      if(resultt.status === false){
         res.statusCode = 500;
         res.json({msg:"Invalid credential"})
-      }else if(resultt.status == true){
+      }else{
         res.statusCode = 200;
         res.json({msg: "post in", imageUrl: result.data.secure_url})
       }
