@@ -7,6 +7,8 @@ var jwt = require('jsonwebtoken')
 const fs = require('fs');
 var cloudinary = require('cloudinary').v2
 const fileupload = require('express-fileupload'); 
+const util = require('util');
+const cloudinaryUpload = util.promisify(cloudinary.uploader.upload_large);
 
 
 router.use(bodyparser.urlencoded({extended: true}))
@@ -15,53 +17,6 @@ router.use(bodyparser.json())
 
 
 
-
-
-
-// // Create a new instance of the Google Cloud Storage client
-// // const storage = new Storage({
-// //   keyFilename: 'path/to/your/credentials.json', // Replace with your credentials file path
-// // });
-
-// // const bucket = storage.bucket('your-bucket-name'); // Replace with your bucket name
-
-// // const multerStorage = multer.memoryStorage();
-
-// // const upload = multer({ storage: multerStorage });
-
-// // // Upload route using multer
-// // app.post('/upload', upload.single('file'), async (req, res) => {
-// //   const file = req.file;
-
-// //   if (!file) {
-// //     return res.status(400).send('No file uploaded.');
-// //   }
-
-// //   const blob = bucket.file(file.originalname);
-// //   const blobStream = blob.createWriteStream();
-
-//   blobStream.on('error', (err) => {
-//     console.error('Error uploading:', err);
-//     res.status(500).send(err);
-//   });
-
-
-
-
-
-//   blobStream.end(file.buffer);
-// });
-
-
-// var storage =  multer.diskStorage({
-//   destination: function(req,file,cb){
-//     cb(null, "public/asset/images/upload_images")
-//   },
-//   filename: function(req,file,cb){
-//     console.log(file)
-//     cb(null,file.originalname)
-//   }
-// })
 
 
 const firebase = require("firebase-admin");
@@ -86,15 +41,6 @@ const serviceAccount = require("../learnathing-84.json");
 
 // });
 
-// Configure Multer
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "./public/asset/images/upload_images");
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, Date.now() + "-" + file.originalname);
-//   },
-// });
 
 
 // Create a route to upload images
@@ -292,23 +238,25 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
  
 try {
   // Upload the image to Cloudinary and await the result
-  const cloudinaryResult  = await new Promise((resolve, reject) => {
-    cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing',
-    resource_type: 'auto', // Automatically detect the resource type (image, video, etc.)
-    format: 'auto', }, (error, result) => {
-      if (error) {
-        console.error(error);
-        return reject({status: false})// Reject the promise on error
-      } else {
-        return resolve({status: true, data:result}); // Resolve the promise with the Cloudinary result on success
-      }
-    });
-  });
+   const cloudinaryResult  =  await cloudinaryUpload(file.tempFilePath, {
+    folder: 'learnathing',
+    resource_type: 'auto',
+    format: 'auto',
+  }); //await new Promise((resolve, reject) => {
+  //   cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing',
+  //   resource_type: 'auto', // Automatically detect the resource type (image, video, etc.)
+  //   format: 'auto', }, (error, result) => {
+  //     if (error) {
+  //       console.error(error);
+  //       return reject({status: false})// Reject the promise on error
+  //     } else {
+  //       return resolve({status: true, data:result}); // Resolve the promise with the Cloudinary result on success
+  //     }
+  //   });
+  // });
   
 
-  // res.statusCode = 200;
-  // res.json({ msg: "Image upload successful", imageUrl: result.secure_url });
-
+  
   if(cloudinaryResult.status === true){
     console.log(cloudinaryResult)
    
