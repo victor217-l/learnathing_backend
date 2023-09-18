@@ -293,9 +293,6 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
 try {
   // Upload the image to Cloudinary and await the result
   const cloudinaryResult  = await new Promise((resolve, reject) => {
-  
-    
-
     cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing',
     resource_type: 'auto', // Automatically detect the resource type (image, video, etc.)
     format: 'auto', }, (error, result) => {
