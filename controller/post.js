@@ -391,9 +391,11 @@ router.post('/user_post', authenticateToken, async (req,res) => {
 
 router.post('/insertintouserform', authenticateToken, async (req,res) => {
   var email = req.body.email;
-  var category = req.body.category;
+  //var category = req.body.category;
+  var userinformcategory1  = req.body.userinformcategory1;
+  var userinformcategory2 = req.body.userinformcategory2;
 
-  let result = await db_query.insertinform(email,category)
+  let result = await db_query.insertinform(email,userinformcategory1,userinformcategory2)
 
   if(result.status == false){
     res.statusCode = 500;
