@@ -205,9 +205,10 @@ var uservideostosee = (category) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err)  throw err;
-            connection.query('selet * from post where category = ? ', [category], async (err, rows) => {
+            connection.query('selet * from post where category = ?', [category], async (err, rows) => {
                 connection.release()
                 if(err){
+                    console.log(err)
                     return resolve({status: false})
                 }else{
                     return resolve({status: true, data:rows})
