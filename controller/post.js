@@ -241,7 +241,7 @@ try {
    const cloudinaryResult  =  await cloudinaryUpload(file.tempFilePath, {
     folder: 'learnathing',
     resource_type: 'auto',
-    format: 'auto',
+  //  format: 'auto',
   }); //await new Promise((resolve, reject) => {
   //   cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing',
   //   resource_type: 'auto', // Automatically detect the resource type (image, video, etc.)
