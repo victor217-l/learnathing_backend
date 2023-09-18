@@ -220,7 +220,7 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
   //var filename = req.file.filename;
   var username = req.body.username;
   var category = req.body.category;
-  var user = '1';
+  var user = req.body.user;
  // var image = req.file.image;
 
  
@@ -371,13 +371,7 @@ router.get('/all_post', authenticateToken, async (req,res) => {
 
 })
 
-router.get('/uploads/:imageName', (req, res) => {
-  const imageName = req.params.imageName;
-  const imagePath = path.join(__dirname, 'public/asset/images/upload_images', imageName);
-
-  // Send the image file as a response
-  res.sendFile(imagePath);
-});
+//router.get('//')
 
 
 //userpost 
@@ -395,26 +389,65 @@ router.post('/user_post', authenticateToken, async (req,res) => {
   }
 })
 
-//
+router.post('/insertintouserform', authenticateToken, async (req,res) => {
+  var email = req.body.email;
+  var category = req.body.category;
 
-// router.get('/all_post', authenticateToken, async (req, res) => {
-//   let result = await db_query.getallpost();
+  let result = await db_query.insertinform(email,category)
 
-//   if (result.status == false) {
-//     res.statusCode = 500;
-//     res.json({ msg: "Invalid credential" });
-//   } else if (result.status == true) {
-//     // Modify the response to include image URLs
-//     const postsWithImageURLs = result.data.map(post => {
-//       // Assuming post.imageFileName contains the filename of the uploaded image
-//       const imageUrl = `/uploads/${post.imageFileName}`;
-//       return { ...post, imageUrl };
-//     });
+  if(result.status == false){
+    res.statusCode = 500;
+    res.json({msg:"Invalid crdential"})
+  }else if(result.status == true){
+    res.statusCode = 200;
+    res.json({msg:"Form in"})
+  }
+})
 
-//     res.statusCode = 200;
-//     res.json({ msg: "All post", list: postsWithImageURLs });
-//   }
-// });
+
+router.get('/uservideostosee1', authenticateToken, async (req,res) => {
+  var category = req.body.category1;
+
+  let result = await db_query.uservideostosee(category);
+
+  if(result.status == false){
+    res.statusCode = 500;
+    res.json({msg:"Invalid crdential"})
+  }else if(result.status == true){
+    res.statusCode = 200;
+    res.json({msg:"All post", list: result.data})
+  }
+})
+
+
+router.get('/uservideostosee2', authenticateToken, async (req,res) => {
+  var category = req.body.category2;
+
+  let result = await db_query.uservideostosee(category);
+
+  if(result.status == false){
+    res.statusCode = 500;
+    res.json({msg:"Invalid crdential"})
+  }else if(result.status == true){
+    res.statusCode = 200;
+    res.json({msg:"All post", list: result.data})
+  }
+})
+
+router.post('/searchvideo', authenticateToken, async (req,res) => {
+  var key = req.body.search;
+
+  let result = await db_query.searchvideo(key);
+
+  if(result.status == false){
+    res.statusCode = 500;
+    res.json({msg:"Invalid crdential"})
+  }else if (result.status == true){ 
+    res.statusCode = 200;
+    res.json({msg:"All videos"})
+  }
+})
+
 
 
 function authenticateToken(req,res,next)  {

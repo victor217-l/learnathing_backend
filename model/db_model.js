@@ -34,11 +34,11 @@ var verifyemail = (username,email,token) =>{
 
 }
 
-var insertinform = (email,userinform) => {
+var insertinform = (email,userinformcategory1,userinformcategory2) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query("insert into userinformation(`email`,`userinform`) values(?,?)", [email,userinform], async (err,rows) => {
+            connection.query("insert into userinformation(`email`,`userinformcategory`,`userinformcategory2`) values(?,?,?)", [email,userinformcategory1,userinformcategory2], async (err,rows) => {
                 connection.release();
                 if(err){
                     return resolve({status: false})
@@ -201,6 +201,40 @@ var seeuserpost = (user_id) => {
     })
 }
 
+var uservideostosee = (category) => {
+    return new Promise((resolve,reject) => {
+        pool.getConnection(async(err,connection) => {
+            if(err)  throw err;
+            connection.query('selet * from post where category = ? ', [category], async (err, rows) => {
+                connection.release()
+                if(err){
+                    return resolve({status: false})
+                }else{
+                    return resolve({status: true, data:rows})
+                }
+            })
+
+        })
+
+    })
+}
+
+var searchvideo = (key) => {
+    return new Promise((resolve,reject) => {
+        pool.getConnection(async(err,connection) => {
+            if(err) throw err;
+            connection.query('select * from post where title like "%' + key  +'%" ', async (err,rows) => {
+                connection.release();
+                if(err){
+                    return resolve({status: false})
+
+                }else{
+                    return resolve({status: true, data:rows})
+                }
+            })
+        })
+    })
+}
 
 
 var sendcomment = (comment, post_id,person_id) => {
@@ -236,5 +270,7 @@ module.exports = {
     sendcomment,
     seeallcomment,
     seeuserpost,
+    uservideostosee,
+    searchvideo,
 
 }
