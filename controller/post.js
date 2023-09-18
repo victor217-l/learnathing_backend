@@ -282,7 +282,7 @@ try {
     res.json({ msg: "Image upload failed: " + error.message });
   } else {
     res.statusCode = 500;
-    res.json({ msg: "Image upload failed: An internal server error occurred" });
+    res.json({ msg: "Image upload failed: An internal server error occurred" + error.message  });
   }
 }
 
