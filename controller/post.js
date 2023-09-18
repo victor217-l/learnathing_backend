@@ -238,42 +238,60 @@ router.post('/addpost',  authenticateToken,  async (req,res) => {
  
 try {
   // Upload the image to Cloudinary and await the result
-   const cloudinaryResult  =  await cloudinaryUpload(file.tempFilePath, {
-    folder: 'learnathing',
-    resource_type: 'auto',
-  //  format: 'auto',
-  }); //await new Promise((resolve, reject) => {
-  //   cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing',
-  //   resource_type: 'auto', // Automatically detect the resource type (image, video, etc.)
-  //   format: 'auto', }, (error, result) => {
-  //     if (error) {
-  //       console.error(error);
-  //       return reject({status: false})// Reject the promise on error
-  //     } else {
-  //       return resolve({status: true, data:result}); // Resolve the promise with the Cloudinary result on success
-  //     }
-  //   });
-  // });
+    const cloudinaryResult  = // await cloudinaryUpload(file.tempFilePath, {
+  //   folder: 'learnathing',
+  //   resource_type: 'auto',
+  // //  format: 'auto', });
+   await new Promise((resolve, reject) => {
+    cloudinary.uploader.upload_large(file.tempFilePath, {folder: 'learnathing',
+    resource_type: 'auto'// Automatically detect the resource type (image, video, etc.)
+    }, (error, result) => {
+      if (error) {
+        console.error(error);
+        return reject({status: false})// Reject the promise on error
+      } else {
+        return resolve({status: true, data:result}); // Resolve the promise with the Cloudinary result on success
+      }
+    });
+  });
   
-  console.log(cloudinaryResult)
+  //console.log(cloudinaryResult)
 
-  
-  if(cloudinaryResult && cloudinaryResult.secure_url){
-    console.log(cloudinaryResult.secure_url)
+if(cloudinaryResult.status === true){
    
-  let resultt = await db_query.insertpost(username,user,cloudinaryResult.secure_url,title,category);
-  //console.log(cloudinaryResult.data.secure_url);
-  if(resultt.status === false){
+  let resultt = await db_query.insertpost(username,user,cloudinaryResult.data.secure_url,title,category);
+    if(resultt.status === false){
     res.statusCode = 500;
     res.json({msg:"Invalid credential"})
     }else{
     res.statusCode = 200;
-    res.json({msg: "post in", imageUrl: cloudinaryResult.secure_url})
+    res.json({msg: "post in", imageUrl: cloudinaryResult.data.secure_url})
     }
   }else{
     res.statusCode = 500;
     res.json({msg:`Invalid credential : ${cloudinaryResult.error.message}, "Invalid credential: secure_url not found in Cloudinary result",`})
   }
+
+
+
+
+
+  
+  // if(cloudinaryResult && cloudinaryResult.secure_url){
+  //   console.log(cloudinaryResult.secure_url)
+   
+  // let resultt = await db_query.insertpost(username,user,cloudinaryResult.secure_url,title,category);
+  //   if(resultt.status === false){
+  //   res.statusCode = 500;
+  //   res.json({msg:"Invalid credential"})
+  //   }else{
+  //   res.statusCode = 200;
+  //   res.json({msg: "post in", imageUrl: cloudinaryResult.secure_url})
+  //   }
+  // }else{
+  //   res.statusCode = 500;
+  //   res.json({msg:`Invalid credential : ${cloudinaryResult.error.message}, "Invalid credential: secure_url not found in Cloudinary result",`})
+  // }
 
 
 } catch (error) {
