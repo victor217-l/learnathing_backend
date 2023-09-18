@@ -299,7 +299,7 @@ try {
       format: 'auto', // Automatically detect the format
     };
 
-    cloudinary.uploader.upload_large(file.tempFilePath, uploadOptions,{folder: 'learnathing'}, (error, result) => {
+    cloudinary.uploader.upload_large(file.tempFilePath, uploadOptions, (error, result) => {
       if (error) {
         console.error(error);
         return reject({status: false})// Reject the promise on error
