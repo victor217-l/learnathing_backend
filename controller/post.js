@@ -257,8 +257,8 @@ try {
   
 
   
-  if(cloudinaryResult.secure_url){
-    console.log(cloudinaryResult)
+  if(cloudinaryResult && cloudinaryResult.secure_url){
+    console.log(cloudinaryResult.secure_url)
    
   let resultt = await db_query.insertpost(username,user,cloudinaryResult.secure_url,title,category);
   console.log(cloudinaryResult.data.secure_url);
@@ -271,7 +271,7 @@ try {
     }
   }else{
     res.statusCode = 500;
-    res.json({msg:`Invalid credential : ${cloudinaryResult.error.message}`})
+    res.json({msg:`Invalid credential : ${cloudinaryResult.error.message}, "Invalid credential: secure_url not found in Cloudinary result",`})
   }
 
 
