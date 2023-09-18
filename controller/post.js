@@ -255,6 +255,7 @@ try {
   //   });
   // });
   
+  console.log(cloudinaryResult)
 
   
   if(cloudinaryResult && cloudinaryResult.secure_url){
