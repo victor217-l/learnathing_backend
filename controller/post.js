@@ -407,7 +407,7 @@ router.post('/insertintouserform', authenticateToken, async (req,res) => {
 })
 
 
-router.get('/uservideostosee1', authenticateToken, async (req,res) => {
+router.post('/uservideostosee1', authenticateToken, async (req,res) => {
   var category = req.body.category1;
 
   let result = await db_query.uservideostosee(category);
@@ -422,7 +422,7 @@ router.get('/uservideostosee1', authenticateToken, async (req,res) => {
 })
 
 
-router.get('/uservideostosee2', authenticateToken, async (req,res) => {
+router.post('/uservideostosee2', authenticateToken, async (req,res) => {
   var category = req.body.category2;
 
   let result = await db_query.uservideostosee(category);
