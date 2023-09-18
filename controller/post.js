@@ -262,7 +262,7 @@ try {
     console.log(cloudinaryResult.secure_url)
    
   let resultt = await db_query.insertpost(username,user,cloudinaryResult.secure_url,title,category);
-  console.log(cloudinaryResult.data.secure_url);
+  //console.log(cloudinaryResult.data.secure_url);
   if(resultt.status === false){
     res.statusCode = 500;
     res.json({msg:"Invalid credential"})
