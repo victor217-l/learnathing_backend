@@ -257,7 +257,7 @@ try {
   
 
   
-  if(cloudinaryResult.status === true){
+  if(cloudinaryResult.status.secure_url){
     console.log(cloudinaryResult)
    
   let resultt = await db_query.insertpost(username,user,cloudinaryResult.data.secure_url,title,category);
