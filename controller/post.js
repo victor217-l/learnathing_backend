@@ -257,17 +257,17 @@ try {
   
 
   
-  if(cloudinaryResult.status.secure_url){
+  if(cloudinaryResult.secure_url){
     console.log(cloudinaryResult)
    
-  let resultt = await db_query.insertpost(username,user,cloudinaryResult.data.secure_url,title,category);
+  let resultt = await db_query.insertpost(username,user,cloudinaryResult.secure_url,title,category);
   console.log(cloudinaryResult.data.secure_url);
   if(resultt.status === false){
     res.statusCode = 500;
     res.json({msg:"Invalid credential"})
     }else{
     res.statusCode = 200;
-    res.json({msg: "post in", imageUrl: cloudinaryResult.data.secure_url})
+    res.json({msg: "post in", imageUrl: cloudinaryResult.secure_url})
     }
   }else{
     res.statusCode = 500;
