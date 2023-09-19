@@ -385,7 +385,7 @@ router.post('/user_post', authenticateToken, async (req,res) => {
   }else if(result.status == true){
     
     res.statusCode = 200;
-    res.json({msg:"users post", list:result.data, list2: postsWithImageURLs})
+    res.json({msg:"users post", list:result.data })
   }
 })
 
