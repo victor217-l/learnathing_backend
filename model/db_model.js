@@ -216,6 +216,21 @@ var usereel = () => {
         })
     })
 }
+var usehome = () => {
+    return new Promise((resolve,reject) => {
+        pool.getConnection(async(err,connection) => {
+            if(err) throw err;
+            connection.query("select * from post order by date dsc", async (err,rows) => {
+                connection.release();
+                if(err){
+                    return resolve({status: false})
+                }else{
+                    return resolve({status: true, data:rows})
+                }
+            })
+        })
+    })
+}
 
 var uservideostosee = (category) => {
     return new Promise((resolve,reject) => {
@@ -290,5 +305,6 @@ module.exports = {
     uservideostosee,
     searchvideo,
     usereel,
+    usehome,
 
 }

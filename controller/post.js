@@ -437,6 +437,20 @@ router.get('/reel', authenticateToken, async (req,res)  => {
 })
 
 
+router.get('/homereel', authenticateToken, async (req,res)  => {
+  
+  let result = await db_query.usehome();
+  if(result.status == false){
+    res.statusCode = 500;
+    res.json({msg:"Invalid credential"})
+  }else if(result.status == true){
+    res.statusCode = 200;
+    res.json({msg:"all home reels", list:result.data})
+  }
+
+})
+
+
 router.post('/uservideostosee2', authenticateToken, async (req,res) => {
   var category = req.body.category2;
 
