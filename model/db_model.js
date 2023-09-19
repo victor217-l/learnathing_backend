@@ -220,7 +220,7 @@ var usehome = () => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query("select * from post order by date dsc", async (err,rows) => {
+            connection.query("select * from post order by date desc", async (err,rows) => {
                 connection.release();
                 if(err){
                     return resolve({status: false})
