@@ -421,6 +421,21 @@ router.post('/uservideostosee1', authenticateToken, async (req,res) => {
   }
 })
 
+//for reels
+
+router.get('/reel', authenticateToken, async (req,res)  => {
+  
+  let result = await db_query.usereel();
+  if(result.status == false){
+    res.statusCode = 500;
+    res.json({msg:"Invalid credential"})
+  }else if(result.status == true){
+    res.statusCode = 200;
+    res.json({msg:"all reels", list:result.data})
+  }
+
+})
+
 
 router.post('/uservideostosee2', authenticateToken, async (req,res) => {
   var category = req.body.category2;
