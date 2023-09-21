@@ -389,7 +389,7 @@ router.post('/user_post', authenticateToken, async (req,res) => {
   }
 })
 
-router.post('/insertintouserform', authenticateToken, async (req,res) => {
+router.post('/insertintouserform',  async (req,res) => {
   var email = req.body.email;
   //var category = req.body.category;
   var userinformcategory1  = req.body.userinformcategory1;
@@ -408,7 +408,16 @@ router.post('/insertintouserform', authenticateToken, async (req,res) => {
 
 
 router.post('/uservideostosee1', authenticateToken, async (req,res) => {
-  var category = req.body.category1;
+
+  let result1 = await db_query.getcategory(email);
+
+  if(result1.status == false){
+    res.statusCode = 500;
+    res.json({msg:"Invalid credential"})
+  }else if(result1.status == true){
+    if(result1.data.length > 0){ 
+      
+  var category = result.data[0].userinformcategory1
 
   let result = await db_query.uservideostosee(category);
 
@@ -419,6 +428,14 @@ router.post('/uservideostosee1', authenticateToken, async (req,res) => {
     res.statusCode = 200;
     res.json({msg:"All post", list: result.data})
   }
+
+    }else{
+      res.statusCode = 500;
+      res.json({msg: "Inva credential"})
+    }
+
+  }
+
 })
 
 //for reels
@@ -452,8 +469,20 @@ router.get('/homereel', authenticateToken, async (req,res)  => {
 
 
 router.post('/uservideostosee2', authenticateToken, async (req,res) => {
-  var category = req.body.category2;
 
+
+  let result1 = await db_query.getcategory(email)
+
+
+  if(result1.status == false){
+    res.statusCode = 500;
+    res.json({msg:"Invalid credential"})
+  }else if(result1.status == true){
+    if(result1.data.length > 0){
+
+      var category = result1.data[0].userinformcategory2;
+
+      
   let result = await db_query.uservideostosee(category);
 
   if(result.status == false){
@@ -463,6 +492,13 @@ router.post('/uservideostosee2', authenticateToken, async (req,res) => {
     res.statusCode = 200;
     res.json({msg:"All post", list: result.data})
   }
+
+    }else{
+      res.statusCode = 500;
+      res.json({msg:"Inav credential"})
+    }
+  }
+
 })
 
 router.post('/searchvideo', authenticateToken, async (req,res) => {

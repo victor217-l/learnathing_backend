@@ -216,6 +216,25 @@ var usereel = () => {
         })
     })
 }
+
+var getcategory  = (email) => {
+    return new Promise((resolve,reject) => {
+        pool.getConnection(async(err,connection) => {
+            if(err) throw err;
+            connection.query("select * from userinformation where email = ?", [email], async (err,rows) => {
+                connection.release();
+                if(err){
+                    return resolve({status: false})
+                }else{
+                    return resolve({status: true, data: rows})
+
+                }
+            })
+        })
+    })
+}
+
+
 var usehome = () => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
@@ -306,5 +325,6 @@ module.exports = {
     searchvideo,
     usereel,
     usehome,
+    getcategory,
 
 }
