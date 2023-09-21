@@ -418,7 +418,7 @@ router.post('/uservideostosee1', authenticateToken, async (req,res) => {
   }else if(result1.status == true){
     if(result1.data.length > 0){ 
       
-  var category = result1.data[0].userinformcategory1
+  var category = result1.data[0].userinformcategory
 
   let result = await db_query.uservideostosee(category);
 
