@@ -409,6 +409,7 @@ router.post('/insertintouserform',  async (req,res) => {
 
 router.post('/uservideostosee1', authenticateToken, async (req,res) => {
 
+  var email = req.body.email;
   let result1 = await db_query.getcategory(email);
 
   if(result1.status == false){
@@ -470,6 +471,7 @@ router.get('/homereel', authenticateToken, async (req,res)  => {
 
 router.post('/uservideostosee2', authenticateToken, async (req,res) => {
 
+  var email = req.body.email;
 
   let result1 = await db_query.getcategory(email)
 
