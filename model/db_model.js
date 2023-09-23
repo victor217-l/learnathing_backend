@@ -292,7 +292,7 @@ var sendcomment = (comment, post_id,person_id) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query("insert into comment(`comment`,`person_uid`,`post_id`) values(?,?,?)", async (err,rows) => {
+            connection.query("insert into comment(`comment`,`username`,`person_uid`,`post_id`) values(?,?,?)", async (err,rows) => {
                 connection.release();
                 if(err) {
                     return resolve({status: false})
@@ -304,8 +304,86 @@ var sendcomment = (comment, post_id,person_id) => {
     })
 }
 
-var seeallcomment = () => {}
+var seeallcomment = (postid) => {
+    return new Promise((resolve,reject) => {
+        pool.getConnection(async(err,connection) => {
+            if(err) throw err;
+            connection.query("select * from comment where postid = ?",[postid], async (err,rows) => {
+                connection.release();
+                if(err){
+                    return resolve({status: false})
+                }else{
+                    return resolve({status: true, data:rows})
+                }
 
+            } )
+        })
+    })
+}
+
+// const [rows] = await connection.query(
+//     'SELECT * FROM user_likes WHERE user_id = ? AND liked_user_id = ?',
+//     [user_id, liked_user_id]
+//   );
+
+//   if (rows.length === 0) {
+//     // User hasn't liked the target user yet, insert a like record
+//     await connection.query(
+//       'INSERT INTO user_likes (user_id, liked_user_id, liked) VALUES (?, ?, true)',
+//       [user_id, liked_user_id]
+//     );
+//     res.json({ message: 'Liked user successfully.' });
+var toseeifalreadylike  = (user_id,liked_post_id) => {
+    return new Promise(async(resolve,reject) => {
+        pool.getConnection(async(err,connection) => {
+            if(err) throw err;
+            connection.query('select * from like where user_id = ? and  likee_post_id = ?', [user_id,liked_post_id], async (err,rows) => {
+                connection.release();
+                if(err){
+                    return resolve({status: false})
+                }else{
+                    return resolve({status: true, data:rows})
+                }
+
+            })
+        })
+    })    
+}
+
+var insertintolike = (user_id,liked_post_id,like) => {
+    return new Promise((resolve,reject) => {
+        pool.getConnection(async(err,connection) => {
+            if(err) throw err;
+            connection.query("insert into like(`user_id`,`likee_post_id`,`likee`) values(?,?,?)", [user_id,liked_post_id,like], async (err,rows) => {
+                connection.release();
+                if(err){
+                    return resolve({status: false})
+                }else{
+                    return resolve({status: true, data:rows})
+                }
+            })
+        })
+    })
+
+}
+ 
+var removecolumn = (user_id,liked_post_id) => {
+    return new Promise((resolve,reject) => {
+        pool.getConnection(async(err,connection) => {
+            if(err) throw err;
+            connection.query("Delete from like where user_id = ? and likee_post_id = ?", [user_id,liked_post_id,like], async (err,rows) => {
+                connection.release();
+                if(err){
+                    return resolve({status: false})
+                }else{
+                    return resolve({status: true, data:rows})
+                }
+            })
+        })
+
+    })
+    
+}
 module.exports = {
     signup,
     insertinform,
@@ -326,5 +404,8 @@ module.exports = {
     usereel,
     usehome,
     getcategory,
+    toseeifalreadylike,
+    insertintolike,
+    removecolumn,
 
 }
