@@ -13,17 +13,17 @@ router.post('/',  authenticateToken, async (req,res) => {
     var username = req.body.username;
     var postid = req.body.postid;
     var user_id = req.body.user_id;
-    var action = req.body.action;
+    var action = req.body.action;//like or unlike
     //liked is 1 unlike is 0
 
     try{
         if(action === 'like'){
             let result1 = await db_query.toseeifalreadylike(user_id,postid);
 
-            if(result1.status == false){
+            if(result1.status == true){
                 res.statusCode = 500;
-                res.json({msg:"Invalid credential"})
-            }else if(result1.status == true){
+                res.json({msg:"its all like"})
+            }else if(result1.status == false){
                 if(result1.data.length === 0){
                     let result2 = await db_query.insertintolike(user_id,postid,true)
 
@@ -43,7 +43,7 @@ router.post('/',  authenticateToken, async (req,res) => {
                 
             }
 
-        }else if(action == 'unlike'){
+        }else if(action === 'unlike'){
             let result3 = await db_query.removecolumn(user_id,liked_user_id);
 
             if(result3.status == false){
