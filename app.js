@@ -5,6 +5,8 @@ var signup = require('./controller/signup')
 var verify = require('./controller/verify')
 var login = require('./controller/login');
 var post = require('./controller/post')
+var comment = require('./controller/comment');
+var like = require('./controller/like')
 const fileupload = require('express-fileupload'); 
 
 var http = require('http')
@@ -27,5 +29,6 @@ app.use('/signup', signup)
 app.use('/verify',verify)
 app.use('/login',login)
 app.use('/post',post)
-
+app.use('/comment',comment)
+app.use('/like',like)
 server.listen(PORT, () => console.log(`server runing on ${PORT} `) )
