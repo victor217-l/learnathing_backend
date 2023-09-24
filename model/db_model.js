@@ -354,7 +354,7 @@ var insertintolike = (user_id,liked_post_id,like) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query("insert into `like`(`user_id`,`likee_post_id`,`likee`) values(?,?,?)", [user_id,liked_post_id,like], async (err,rows) => {
+            connection.query("insert into `likee`(`user_id`,`likee_post_id`,`likee`) values(?,?,?)", [user_id,liked_post_id,like], async (err,rows) => {
                 connection.release();
                 if(err){
                     return resolve({status: false})
@@ -371,7 +371,7 @@ var removecolumn = (user_id,liked_post_id) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query("Delete from `like` where user_id = ? and likee_post_id = ?", [user_id,liked_post_id,like], async (err,rows) => {
+            connection.query("Delete from `likee` where user_id = ? and likee_post_id = ?", [user_id,liked_post_id,like], async (err,rows) => {
                 connection.release();
                 if(err){
                     return resolve({status: false})
