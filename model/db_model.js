@@ -288,7 +288,7 @@ var searchvideo = (key) => {
 }
 
 
-var sendcomment = (comment,username, post_id,person_id) => {
+var sendcomment = (comment,username,user_id, post_id,) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
