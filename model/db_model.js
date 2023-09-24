@@ -371,7 +371,7 @@ var removecolumn = (user_id,liked_post_id) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query("Delete from like where user_id = ? and likee_post_id = ?", [user_id,liked_post_id,like], async (err,rows) => {
+            connection.query("Delete from `like` where user_id = ? and likee_post_id = ?", [user_id,liked_post_id,like], async (err,rows) => {
                 connection.release();
                 if(err){
                     return resolve({status: false})
