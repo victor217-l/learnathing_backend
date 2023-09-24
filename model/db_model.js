@@ -288,11 +288,11 @@ var searchvideo = (key) => {
 }
 
 
-var sendcomment = (comment, post_id,person_id) => {
+var sendcomment = (comment,username, post_id,person_id) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query("insert into comment(`comment`,`username`,`person_uid`,`post_id`) values(?,?,?)", async (err,rows) => {
+            connection.query("insert into comment(`comment`,`username`,`person_uid`,`post_id`) values(?,?,?)",[comment,username,post_id,person_id], async (err,rows) => {
                 connection.release();
                 if(err) {
                     return resolve({status: false})
