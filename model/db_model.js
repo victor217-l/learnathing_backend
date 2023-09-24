@@ -309,7 +309,7 @@ var seeallcomment = (postid) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query("select * from comment where postid = ?",[postid], async (err,rows) => {
+            connection.query("select * from comment where post_id = ?",[postid], async (err,rows) => {
                 connection.release();
                 if(err){
                     return resolve({status: false})
