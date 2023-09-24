@@ -13,9 +13,9 @@ router.post('/',  authenticateToken, async (req,res) => {
     var username = req.body.username;
     var comment = req.body.comment
     var postid = req.body.postid;
-    var pserson_id = req.body.user_id;
+    var user_id = req.body.user_id;
 
-    let result = await db_query.sendcomment(comment,username,postid,pserson_id);
+    let result = await db_query.sendcomment(comment,username,user_id,postid);
 
     if(result.status == false){
         res.statusCode = 500;

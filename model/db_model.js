@@ -295,6 +295,7 @@ var sendcomment = (comment,username,user_id, post_id,) => {
             connection.query("insert into comment(`comment`,`username`,`person_uid`,`post_id`) values(?,?,?,?)",[comment,username,user_id,post_id], async (err,rows) => {
                 connection.release();
                 if(err) {
+                    console.log(err)
                     return resolve({status: false})
                 }else{
                     return resolve({status: true, data:rows})
