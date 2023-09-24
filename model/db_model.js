@@ -337,7 +337,7 @@ var toseeifalreadylike  = (user_id,liked_post_id) => {
     return new Promise(async(resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query('select * from `like` where user_id = ? AND  likee_post_id = ?', [user_id,liked_post_id], async (err,rows) => {
+            connection.query('select * from `likee` where user_id = ? AND  likee_post_id = ?', [user_id,liked_post_id], async (err,rows) => {
                 connection.release();
                 if(err){
                     return resolve({status: false})
