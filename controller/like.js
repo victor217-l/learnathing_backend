@@ -20,10 +20,10 @@ router.post('/',  authenticateToken, async (req,res) => {
         if(action === 'like'){
             let result1 = await db_query.toseeifalreadylike(user_id,postid);
 
-            if(result1.status == true){
-                res.statusCode = 500;
-                res.json({msg:"its all like"})
-            }else if(result1.status == false){
+            // if(result1.status == true){
+            //     res.statusCode = 500;
+            //     res.json({msg:"its all like"})
+            // }else if(result1.status == false){
                 if(result1.data.length === 0){
                     let result2 = await db_query.insertintolike(user_id,postid,true)
 
@@ -36,10 +36,10 @@ router.post('/',  authenticateToken, async (req,res) => {
                     }
 
                     
-                }else{
-                    res.statusCode = 500;
-                    res.json({msg:"Inv crdential"})
-                }
+                // }else{
+                //     res.statusCode = 500;
+                //     res.json({msg:"Inv crdential"})
+                // }
                 
             }
 
