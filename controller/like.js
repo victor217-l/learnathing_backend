@@ -44,13 +44,13 @@ router.post('/',  authenticateToken, async (req,res) => {
             }
 
         }else if(action === 'unlike'){
-            let result3 = await db_query.removecolumn(user_id,liked_user_id);
+            let result3 = await db_query.removecolumn(user_id,likee_user_id);
 
-            if(result3.status == false){
-                res.statusCode = 500;
-                res.json({msg:"Inv crdential"})
-            }else if(result3.status == true){
-                if(result3.data.length > 0){
+            // if(result3.status == false){
+            //     res.statusCode = 500;
+            //     res.json({msg:"Inv crdential"})
+            // }else if(result3.status == true){
+            //     if(result3.data.length > 0){
 
                     if(result3.data[0].affectedRows === 0){
                         res.statusCode = 404;
@@ -59,11 +59,11 @@ router.post('/',  authenticateToken, async (req,res) => {
                         res.statusCode = 200;
                         res.json({msg:"Unliked successfull"})
                     }                    
-                }else{
-                    res.statusCode = 500;
-                    res.json({msg:"Inavlid action"})
-                }
-            }
+                // }else{
+                //     res.statusCode = 500;
+                //     res.json({msg:"Inavlid action"})
+                // }
+           // }
 
         }
     }catch(e){
