@@ -62,7 +62,7 @@ router.post('/',  authenticateToken, async (req,res) => {
             }
             }else {
               res.statusCode = 500;
-              res.json({ msg: "Invalid action" });
+              res.json({ msg: "Invalid action1" });
             }
           }else {
             res.statusCode = 500;
