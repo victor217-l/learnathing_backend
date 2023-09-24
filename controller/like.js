@@ -44,7 +44,7 @@ router.post('/',  authenticateToken, async (req,res) => {
             }
 
         }else if(action === 'unlike'){
-            let result3 = await db_query.removecolumn(user_id,likee_user_id);
+            let result3 = await db_query.removecolumn(user_id,postid);
 
             // if(result3.status == false){
             //     res.statusCode = 500;
