@@ -51,7 +51,7 @@ router.post('/',  authenticateToken, async (req,res) => {
             //     res.json({msg:"Inv crdential"})
             // }else if(result3.status == true){
             //     if(result3.data.length > 0){
-          if (result3.status === false) {
+          if (result3.status == false) {
             // if (result3.data.length > 0) {
             //   if(result3.data[0].affectedRows === 0){
                 res.statusCode = 500;
