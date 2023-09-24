@@ -39,7 +39,7 @@ router.post('/all_comment', authenticateToken, async (req,res) => {
         res.json({msg:"Invalid credential"})
     }else if(result.status == true){
         res.statusCode = 200;
-        res.json({msg:"all post"})
+        res.json({msg:"all post", list: result.data})
     }
 
 })
