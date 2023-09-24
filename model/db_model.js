@@ -354,7 +354,7 @@ var insertintolike = (user_id,liked_post_id,like) => {
     return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
-            connection.query("insert into like(`user_id`,`likee_post_id`,`likee`) values(?,?,?)", [user_id,liked_post_id,like], async (err,rows) => {
+            connection.query("insert into `like`(`user_id`,`likee_post_id`,`likee`) values(?,?,?)", [user_id,liked_post_id,like], async (err,rows) => {
                 connection.release();
                 if(err){
                     return resolve({status: false})
