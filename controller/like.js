@@ -53,12 +53,12 @@ router.post('/',  authenticateToken, async (req,res) => {
             //     if(result3.data.length > 0){
           if (result3.status === true) {
             if (result3.data.length > 0) {
-              if(result3.data[0].rows === 0 && result3.status == false){
+              if(result3.data[0].affectedRows === 0){
                 res.statusCode = 404;
                 res.json({msg:"User has not liked post "})
             }else{
-              res.statusCode = 500;
-              res.json({ msg: "Invalid action" });
+              res.statusCode = 200;
+              res.json({ msg: "unlike successfully" });
             }
             }else {
               res.statusCode = 500;
