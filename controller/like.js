@@ -51,14 +51,21 @@ router.post('/',  authenticateToken, async (req,res) => {
             //     res.json({msg:"Inv crdential"})
             // }else if(result3.status == true){
             //     if(result3.data.length > 0){
+              
+            if (result3.data && result3.data.length > 0) {
+              if(result3.data[0].rows === 0 && result3.status == false){
+                res.statusCode = 404;
+                res.json({msg:"User has not liked post "})
+            }else if(result3.status == true){
+                res.statusCode = 200;
+                res.json({msg:"Unliked successfull"})
+            }     
+            }else {
+              res.statusCode = 500;
+              res.json({ msg: "Invalid action" });
+            }
 
-                    if(result3.data[0].affectedRows === 0 && result3.status == false){
-                        res.statusCode = 404;
-                        res.json({msg:"User has not liked post "})
-                    }else if(result3.status == true){
-                        res.statusCode = 200;
-                        res.json({msg:"Unliked successfull"})
-                    }                    
+                                   
                 // }else{
                 //     res.statusCode = 500;
                 //     res.json({msg:"Inavlid action"})
