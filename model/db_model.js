@@ -85,7 +85,7 @@ var updatesignup = (email,emailstatus) => {
 }
 
 var getuserid = (email) => {
-    return new Promise((resolve,resject) => {
+    return new Promise((resolve,reject) => {
         pool.getConnection(async(err,connection) => {
             if(err) throw err;
             connection.query("select * from verify where email = ?", [email], async (err,rows) => {
